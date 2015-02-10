@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-
+#import "UserAuthenticationViewController.h"
 
 @interface AppDelegate ()
 
@@ -17,7 +17,11 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    
+    UserAuthenticationViewController *authenticateUser = [[UserAuthenticationViewController alloc] initWithNibName:@"UserAuthenticationViewController" bundle:[NSBundle mainBundle]];
+    
+    self.window.rootViewController = authenticateUser;
+    
     return YES;
 }
 
