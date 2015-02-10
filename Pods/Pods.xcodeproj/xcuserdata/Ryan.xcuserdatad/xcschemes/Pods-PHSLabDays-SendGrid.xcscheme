@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DE7895BA0E28C732ABEE30C0"
+               BlueprintIdentifier = "0F5932954B44A2B792A87F36"
                BuildableName = "libPods-PHSLabDays-SendGrid.a"
                BlueprintName = "Pods-PHSLabDays-SendGrid"
                ReferencedContainer = "container:Pods.xcodeproj">

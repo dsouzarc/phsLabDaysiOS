@@ -9,12 +9,22 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-CRToast.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-MBProgressHUD.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
 		<key>Pods-PHSLabDays-AFNetworking.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PHSLabDays-CRToast.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -45,6 +55,11 @@
 			<false/>
 		</dict>
 		<key>Pods-PHSLabDaysTests-AFNetworking.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PHSLabDaysTests-CRToast.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -96,97 +111,6 @@
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
-	<dict>
-		<key>02C2A372D470483D5A6F35A3</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>0649590C450FEB6F8A953962</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>13AFC206CDC1ABF838BB52C6</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>155D2007FBF9D7BEF0BC6512</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>2D153AF6A16B7C1F54D78D7E</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>37FF871630C505537FED414B</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>488EF9A07297D1CF81B042C8</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>4A7C4F152A20CDCEE8F876EC</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>62044398E6B3D1DFF2829691</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>683D3EA68AED43498AB40537</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>7C378C59952FF7C887178E7E</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>9737758A538DC6197CE59554</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>BCFFE12B268334DA8C247E5D</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>BD2AED200F89E10473EA8132</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>C69C997A7EC5EB51EFC280E5</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>D704D3D92880B256E771D656</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>DD4ABABB4B164BE1C9B3B63B</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>DE7895BA0E28C732ABEE30C0</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-	</dict>
+	<dict/>
 </dict>
 </plist>

@@ -6,6 +6,7 @@ platform :ios, '7.0'
 pod 'SendGrid', '~>  0.2.6'
 pod 'UICKeyChainStore'
 pod 'MBProgressHUD', '~> 0.8'
+pod 'CRToast', '~> 0.0.7'
 
 target 'PHSLabDays' do
 
