@@ -38,6 +38,16 @@
     
     if(self) {
         self.keychain = [[UICKeyChainStore alloc] initWithService:@"APILogin"];
+        
+    }
+    return self;
+}
+
+- (id)initWithMessage:(NSString *)message dismissAfter:(NSTimeInterval)interval
+{
+    if ((self = [super init]))
+    {
+      
     }
     return self;
 }
