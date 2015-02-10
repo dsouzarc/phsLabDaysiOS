@@ -16,6 +16,14 @@
 @interface SendMessageViewController () <UITextFieldDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, strong) UICKeyChainStore *keychain;
+- (IBAction)sendSpecialMessageButton:(id)sender;
+@property (weak, nonatomic) IBOutlet UITextField *greetingTextField;
+@property (weak, nonatomic) IBOutlet UITextField *nextVacationTextField;
+@property (weak, nonatomic) IBOutlet UILabel *numberOfSchoolDaysLeftLabel;
+- (IBAction)numberOfDaysLeftStepper:(id)sender;
+@property (weak, nonatomic) IBOutlet UIPickerView *letterDayPickerView;
+- (IBAction)sendDailyMessageButton:(id)sender;
+- (IBAction)clearSavedButton:(id)sender;
 
 @end
 
@@ -74,4 +82,13 @@
     [super didReceiveMemoryWarning];
 }
 
+- (IBAction)sendSpecialMessageButton:(id)sender {
+}
+- (IBAction)numberOfDaysLeftStepper:(id)sender {
+}
+- (IBAction)sendDailyMessageButton:(id)sender {
+}
+
+- (IBAction)clearSavedButton:(id)sender {
+}
 @end

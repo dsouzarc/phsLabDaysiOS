@@ -6,6 +6,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SendMessageViewController">
             <connections>
+                <outlet property="greetingTextField" destination="lF3-Es-Jf0" id="bZj-XD-c8A"/>
+                <outlet property="letterDayPickerView" destination="maX-KE-FC8" id="vvj-Ny-sA6"/>
+                <outlet property="nextVacationTextField" destination="W5e-rx-S4s" id="F1D-Y7-Tmg"/>
+                <outlet property="numberOfSchoolDaysLeftLabel" destination="XPL-RP-Vh0" id="xQ7-dU-Quw"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="MRn-F1-5XH"/>
             </connections>
         </placeholder>
@@ -20,7 +24,7 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="clearSavedButton:" destination="-1" eventType="touchUpInside" id="TNd-Pm-l0l"/>
+                        <action selector="clearSavedButton:" destination="-1" eventType="touchUpInside" id="QkD-cL-lcz"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DZn-az-tDn">
@@ -28,6 +32,9 @@
                     <state key="normal" title="Send Special Message">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="sendSpecialMessageButton:" destination="-1" eventType="touchUpInside" id="E8v-6b-OyP"/>
+                    </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Greeting" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QI7-El-fPt">
                     <rect key="frame" x="21" y="114" width="66" height="21"/>
@@ -68,6 +75,9 @@
                 </pickerView>
                 <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="r9N-rx-968">
                     <rect key="frame" x="263" y="238" width="94" height="29"/>
+                    <connections>
+                        <action selector="numberOfDaysLeftStepper:" destination="-1" eventType="valueChanged" id="JSD-6U-rzk"/>
+                    </connections>
                 </stepper>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="90" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XPL-RP-Vh0">
                     <rect key="frame" x="175" y="242" width="95" height="21"/>
@@ -80,6 +90,9 @@
                     <state key="normal" title="Send Daily Message">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="sendDailyMessageButton:" destination="-1" eventType="touchUpInside" id="sCa-4J-3bv"/>
+                    </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
