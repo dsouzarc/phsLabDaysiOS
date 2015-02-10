@@ -7,7 +7,7 @@
 //
 
 #import "UserAuthenticationViewController.h"
-//#import "SendMessageViewController.h"
+#import "SendMessageViewController.h"
 
 @interface UserAuthenticationViewController () <UITextFieldDelegate>
 
@@ -46,9 +46,9 @@
 {
     NSString *total = [NSString stringWithFormat:@"%@%@", textField.text, string];
     if([total isEqualToString:@"7399"]) {
-        //SendMessageViewController *sendMessageVC = [[SendMessageViewController alloc] initWithNibName:@"SendMessageViewController" bundle:[NSBundle mainBundle]];
+        SendMessageViewController *sendMessageVC = [[SendMessageViewController alloc] initWithNibName:@"SendMessageViewController" bundle:[NSBundle mainBundle]];
         
-        //[self presentViewController:sendMessageVC animated:YES completion:nil];
+        [self presentViewController:sendMessageVC animated:YES completion:nil];
     }
     return YES;
 }
