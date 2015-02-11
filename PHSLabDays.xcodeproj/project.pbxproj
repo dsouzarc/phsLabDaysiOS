@@ -124,12 +124,12 @@
 				948878E61A8AC9070047E0CC /* UserAuthenticationViewController.m */,
 				948878E71A8AC9070047E0CC /* UserAuthenticationViewController.xib */,
 				948878C51A8AC1D30047E0CC /* ViewController.m */,
-				948878E31A8AC86F0047E0CC /* login_background.png */,
 				948878EB1A8ACA7B0047E0CC /* SendMessageViewController.h */,
 				948878EC1A8ACA7B0047E0CC /* SendMessageViewController.m */,
 				948878ED1A8ACA7B0047E0CC /* SendMessageViewController.xib */,
 				948878C71A8AC1D30047E0CC /* Main.storyboard */,
 				948878CA1A8AC1D30047E0CC /* Images.xcassets */,
+				948878E31A8AC86F0047E0CC /* login_background.png */,
 				948878CC1A8AC1D30047E0CC /* LaunchScreen.xib */,
 				948878BD1A8AC1D30047E0CC /* Supporting Files */,
 			);
