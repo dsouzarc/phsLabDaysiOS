@@ -72,6 +72,10 @@
                 </label>
                 <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="maX-KE-FC8">
                     <rect key="frame" x="168" y="281" width="199" height="162"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="54k-by-fIw"/>
+                        <outlet property="delegate" destination="-1" id="WcR-YW-CFv"/>
+                    </connections>
                 </pickerView>
                 <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="r9N-rx-968">
                     <rect key="frame" x="263" y="238" width="94" height="29"/>

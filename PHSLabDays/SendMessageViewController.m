@@ -14,7 +14,7 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <CRToast/CRToast.h>
 
-@interface SendMessageViewController () <UITextFieldDelegate, UIAlertViewDelegate>
+@interface SendMessageViewController () <UITextFieldDelegate, UIAlertViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 
 @property (nonatomic, strong) UICKeyChainStore *keychain;
 
@@ -27,8 +27,9 @@
 - (IBAction)sendDailyMessageButton:(id)sender;
 - (IBAction)clearSavedButton:(id)sender;
 - (IBAction)sendSpecialMessageButton:(id)sender;
-
 - (IBAction)numberOfDaysLeftStepper:(id)sender;
+
+@property (strong, nonatomic) NSArray *_letterDayPickerData;
 
 @end
 
@@ -39,19 +40,17 @@
     
     if(self) {
         self.keychain = [[UICKeyChainStore alloc] initWithService:@"APILogin"];
+        self._letterDayPickerData = @[@"A", @"B", @"C", @"D", @"E", @"F", @"G"];
+        
+        self.letterDayPickerView.showsSelectionIndicator = YES;
+        self.letterDayPickerView.dataSource = self;
+        self.letterDayPickerView.delegate = self;
         
     }
     return self;
 }
 
-- (id)initWithMessage:(NSString *)message dismissAfter:(NSTimeInterval)interval
-{
-    if ((self = [super init]))
-    {
-      
-    }
-    return self;
-}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -98,6 +97,11 @@
     }
 }
 
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    NSLog(@"CHOSEN: %@", self._letterDayPickerData[row]);
+}
+
 - (IBAction)numberOfDaysLeftStepper:(id)sender {
     
 }
@@ -121,6 +125,21 @@
     passwordTextField.placeholder = @"Password";
     
     [alert show];
+}
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return self._letterDayPickerData.count;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    return self._letterDayPickerData[row];
 }
 
 - (void)makeToast:(NSString *)toastMessage: (UIColor *)backgroundColor: (UIColor *)textColor {

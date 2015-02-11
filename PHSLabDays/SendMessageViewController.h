@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SendMessageViewController : UIViewController
+@interface SendMessageViewController : UIViewController<UIPickerViewDataSource, UIPickerViewDelegate>
 
 @end

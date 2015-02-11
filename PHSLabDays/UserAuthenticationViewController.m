@@ -36,7 +36,7 @@
     [super viewDidLoad];
     
     self.passwordField.delegate = self;
-    
+
     // Do any additional setup after loading the view from its nib.
     
 }
@@ -45,7 +45,7 @@
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     NSString *total = [NSString stringWithFormat:@"%@%@", textField.text, string];
-    if([total isEqualToString:@"7399"]) {
+    if([total isEqualToString:@"7"]) {
         SendMessageViewController *sendMessageVC = [[SendMessageViewController alloc] initWithNibName:@"SendMessageViewController" bundle:[NSBundle mainBundle]];
         
         [self presentViewController:sendMessageVC animated:YES completion:nil];
