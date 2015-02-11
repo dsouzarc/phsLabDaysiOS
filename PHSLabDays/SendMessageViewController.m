@@ -12,6 +12,7 @@
 #import <SendGrid/SendGrid.h>
 #import <SendGrid/SendGridEmail.h>
 #import <MBProgressHUD/MBProgressHUD.h>
+#import <CRToast/CRToast.h>
 
 @interface SendMessageViewController () <UITextFieldDelegate, UIAlertViewDelegate>
 
@@ -62,20 +63,14 @@
     NSLog(@"Entered: %@",[[alertView textFieldAtIndex:0] text]);
     
     if([alertView textFieldAtIndex:0].text.length <= 5 || [alertView textFieldAtIndex:1].text.length <= 5) {
+        [self makeToast:@"Username/Password too short" :[UIColor redColor] :[UIColor blackColor]];
         [self setupSendGrid];
     }
-    
-    self.keychain[@"username"] = [alertView textFieldAtIndex:0].text;
-    self.keychain[@"password"] = [alertView textFieldAtIndex:1].text;
-}
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self.view endEditing:YES];
-    [super touchesBegan:touches withEvent:event];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+    else {
+        self.keychain[@"username"] = [alertView textFieldAtIndex:0].text;
+        self.keychain[@"password"] = [alertView textFieldAtIndex:1].text;
+        [self makeToast:@"Successfully saved username and password" :[UIColor greenColor] :[UIColor blackColor]];
+    };
 }
 
 - (IBAction)sendSpecialMessageButton:(id)sender {
@@ -128,8 +123,38 @@
     [alert show];
 }
 
+- (void)makeToast:(NSString *)toastMessage: (UIColor *)backgroundColor: (UIColor *)textColor {
+    NSDictionary *options = @{
+                              kCRToastTextKey : toastMessage,
+                              kCRToastBackgroundColorKey : backgroundColor,
+                              kCRToastTextColorKey : textColor,
+                              kCRToastTextAlignmentKey : @(NSTextAlignmentCenter),
+                              kCRToastAnimationInTypeKey : @(CRToastAnimationTypeGravity),
+                              kCRToastAnimationOutTypeKey : @(CRToastAnimationTypeGravity),
+                              kCRToastAnimationInDirectionKey : @(CRToastAnimationDirectionLeft),
+                              kCRToastStatusBarStyleKey : @(CRToastTypeNavigationBar),
+                              kCRToastAnimationOutDirectionKey : @(CRToastAnimationDirectionRight)
+                              };
+    [CRToastManager showNotificationWithOptions:options
+                                completionBlock:^{
+                                    NSLog(@"Completed");
+                                }];
+}
+
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self.view endEditing:YES];
+    [super touchesBegan:touches withEvent:event];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
+
 - (IBAction)clearSavedButton:(id)sender {
     self.keychain[@"username"] = nil;
     self.keychain[@"password"] = nil;
+    [self makeToast:@"User information cleared" :[UIColor redColor] :[UIColor blackColor]];
 }
 @end
