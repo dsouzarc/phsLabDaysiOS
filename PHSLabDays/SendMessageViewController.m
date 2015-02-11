@@ -30,6 +30,7 @@
 - (IBAction)numberOfDaysLeftStepper:(id)sender;
 
 @property (strong, nonatomic) NSArray *_letterDayPickerData;
+@property (strong, nonatomic) NSUserDefaults *_storedPreferences;
 
 @end
 
@@ -41,19 +42,35 @@
     if(self) {
         self.keychain = [[UICKeyChainStore alloc] initWithService:@"APILogin"];
         self._letterDayPickerData = @[@"A", @"B", @"C", @"D", @"E", @"F", @"G"];
+        self._storedPreferences = [NSUserDefaults standardUserDefaults];
         
         self.letterDayPickerView.showsSelectionIndicator = YES;
         self.letterDayPickerView.dataSource = self;
         self.letterDayPickerView.delegate = self;
         
+        //Set the letter day from the preference
+        [self setLetterDayFromSaved];
+        
     }
     return self;
 }
 
+- (void) setLetterDayFromSaved
+{
+    NSString *letterDay = [self getLetterDayFromStoredPreferences];
+    
+    unichar letter = [[letterDay uppercaseString] characterAtIndex:0];
+    int arrayLocation = letter - 65;
+    [self.letterDayPickerView selectRow:arrayLocation inComponent:0 animated:YES];
+    
+    NSLog(@"LETTER: %i", letter);
+    
+}
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setLetterDayFromSaved];
     NSLog(@"Send Message loaded");
 }
 
@@ -100,6 +117,9 @@
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     NSLog(@"CHOSEN: %@", self._letterDayPickerData[row]);
+    NSString *chosenLetterDay = self._letterDayPickerData[row];
+    [self setLetterDayToStoredPreferences:chosenLetterDay];
+    NSLog(@"STORED %@", [self getLetterDayFromStoredPreferences]);
 }
 
 - (IBAction)numberOfDaysLeftStepper:(id)sender {
@@ -160,6 +180,35 @@
                                 }];
 }
 
+- (NSString *) getLetterDayFromStoredPreferences
+{
+    NSString *storedLetterDay = [self._storedPreferences stringForKey:@"letter_day"];
+    
+    if(storedLetterDay == nil) {
+        return @"A";
+    }
+    return storedLetterDay;
+}
+
+- (void) setLetterDayToStoredPreferences: (NSString *)letterDay
+{
+    [self._storedPreferences setValue:letterDay forKey:@"letter_day"];
+}
+
+- (NSString *) getGreetingFromStoredPreferences
+{
+    NSString *storedGreeting = [self._storedPreferences stringForKey:@"greeting"];
+    
+    if(storedGreeting == nil) {
+        return @"Hi ";
+    }
+    return storedGreeting;
+}
+
+- (void) setGreetingToStoredPreferences: (NSString *)greeting
+{
+    [self._storedPreferences setValue:greeting forKey:@"greeting"];
+}
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [self.view endEditing:YES];
