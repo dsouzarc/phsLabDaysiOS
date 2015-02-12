@@ -55,7 +55,11 @@
         
         if(filePath) {
             NSString *text = [NSString stringWithContentsOfFile:filePath];
-            NSLog(@"CONTENTS: %@", text);
+            //NSLog(@"CONTENTS: %@", text);
+            NSArray *values = [text componentsSeparatedByString:@","];
+            
+            NSLog(@"VALUES: %@", values);
+            
         }
         
     }
