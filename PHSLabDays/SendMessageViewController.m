@@ -51,6 +51,13 @@
         //Set the letter day from the preference
         [self setLetterDayFromSaved];
         
+        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"PHS Lab Days (Responses)" ofType:@"csv"];
+        
+        if(filePath) {
+            NSString *text = [NSString stringWithContentsOfFile:filePath];
+            NSLog(@"CONTENTS: %@", text);
+        }
+        
     }
     return self;
 }
