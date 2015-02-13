@@ -42,7 +42,17 @@
 
 - (NSString *) labDayMessage
 {
-    return nil;
+    NSMutableString *result = [[NSMutableString alloc] init];
+    
+    if([self.scienceOne isLabDay:self.letterDay]) {
+        [result appendString: [[NSString alloc] initWithFormat:@"Today is a lab day for %@", self.scienceOne.scienceName]];
+    }
+    
+    if([self.scienceTwo isLabDay:self.letterDay]) {
+        [result appendString: [[NSString alloc] initWithFormat:@"Today is a lab day for %@", self.scienceTwo.scienceName]];
+    }
+    
+    return result;
 }
 
 
