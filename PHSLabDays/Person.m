@@ -7,6 +7,7 @@
 //
 
 #import "Person.h"
+#import "Science.h"
 
 @implementation Person
 
@@ -36,8 +37,7 @@
         return YES;
     }
     
-
-    
+    return [self.scienceOne isLabDay:self.letterDay] || [self.scienceTwo isLabDay:self.letterDay];
 }
 
 - (NSString *) labDayMessage

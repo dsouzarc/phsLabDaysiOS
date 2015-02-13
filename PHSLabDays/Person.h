@@ -7,14 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Science.h"
 
-@interface Person : NSObject
+@class Science;
 
 //When the person should get notifications
 typedef NS_ENUM(NSUInteger, Notification) { EVERYDAY, LABDAYS};
 typedef NS_ENUM(NSUInteger, Carrier) {VERIZON, ATTT, SPRINT, TMOBILE};
 typedef NS_ENUM(NSUInteger, LetterDay) {A, B, C, D, E, F, G};
+
+@interface Person : NSObject
+
 
 @property (nonatomic, readonly, copy) NSString *name;
 @property (nonatomic, readonly, copy) NSString *phoneNumber;
