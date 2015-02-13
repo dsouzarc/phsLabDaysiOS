@@ -10,16 +10,16 @@
 
 @interface Person : NSObject
 
-@property enum Carrier *carrier;
-@property enum Notification *notificationSchedule;
+@property (nonatomic, readonly) enum Carrier *carrier;
+@property (nonatomic, readonly) enum Notification *notificationSchedule;
 
-@property (nonatomic, copy) NSString *name;
-@property (nonatomic, copy) NSString *phoneNumber;
+@property (nonatomic, readonly, copy) NSString *name;
+@property (nonatomic, readonly, copy) NSString *phoneNumber;
 
-@property (nonatomic, copy) NSString *scienceOne;
-@property (nonatomic, copy) NSArray *scienceOneLabDays;
-@property (nonatomic, copy) NSString *scienceTwo;
-@property (nonatomic, copy) NSArray *scienceTwoLabDays;
+@property (nonatomic, readonly, copy) NSString *scienceOne;
+@property (nonatomic, readonly, copy) NSArray *scienceOneLabDays;
+@property (nonatomic, readonly, copy) NSString *scienceTwo;
+@property (nonatomic, readonly, copy) NSArray *scienceTwoLabDays;
 
 enum Notification {JUST_LAB_DAYS, EVERY_DAY};
 enum Carrier {VERIZON, ATTT, SPRINT, TMOBILE};
