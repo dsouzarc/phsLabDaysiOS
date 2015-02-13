@@ -21,8 +21,13 @@
 @property (nonatomic, readonly, copy) NSString *scienceTwo;
 @property (nonatomic, readonly, copy) NSArray *scienceTwoLabDays;
 
+//When the person should get notifications
 enum Notification {JUST_LAB_DAYS, EVERY_DAY};
+
+//The person's carrier
 enum Carrier {VERIZON, ATTT, SPRINT, TMOBILE};
+
+//The letter day
 enum Letter_Day {A, B, C, D, E, F, G};
 
 @end
