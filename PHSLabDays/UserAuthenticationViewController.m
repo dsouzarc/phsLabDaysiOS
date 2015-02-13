@@ -24,25 +24,6 @@
 - (instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    
-    
-    NSArray *ab1 = [[NSArray alloc] initWithObjects:(enum LetterDay)A, (enum LetterDay)B, nil];
-    NSArray *ab = [[NSArray alloc] initWithObjects:(enum LetterDay)A, (enum LetterDay)B, nil];
-    //NSArray *bc = [[NSArray alloc] initWithObjects:(enum LetterDay)D, (enum LetterDay)D, nil];
-    
-    Science *first = [[Science alloc] initEverything:@"Temp1" labDays:ab];
-    Science *second = [[Science alloc] initEverything:@"Temp2" labDays:ab1];
-    
-    Person *me = [[Person alloc] initEverything:@"Hello" phoneNumber:@"609" carrier:VERIZON letterDay:A notificationSchedule:EVERYDAY scienceOne:first scienceTwo:second];
-    
-    if([me shouldGetMessage]) {
-        NSLog(@"YES!!");
-    }
-    else {
-        NSLog(@"NOPE!!");
-    }
-    
-    
     return self;
 }
 

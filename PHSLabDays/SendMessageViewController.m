@@ -32,6 +32,8 @@
 @property (strong, nonatomic) NSArray *_letterDayPickerData;
 @property (strong, nonatomic) NSUserDefaults *_storedPreferences;
 
+@property (strong, atomic) NSMutableArray *people;
+
 @end
 
 @implementation SendMessageViewController
@@ -51,21 +53,33 @@
         //Set the letter day from the preference
         [self setLetterDayFromSaved];
         
-        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"PHS Lab Days (Responses)" ofType:@"csv"];
-        
-        if(filePath) {
-            NSString *text = [NSString stringWithContentsOfFile:filePath];
-            //NSLog(@"CONTENTS: %@", text);
-            NSArray *values = [text componentsSeparatedByString:@","];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             
-            NSLog(@"VALUES: %@", values);
+            //Update the global array with the recipients
+            [self updateRecipientsFromFile];
             
-        }
-        
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //Say mission success
+            });
+        });
     }
     return self;
 }
 
+- (void) updateRecipientsFromFile
+{
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"PHS Lab Days (Responses)" ofType:@"csv"];
+    
+    if(filePath) {
+        NSString *text = [NSString stringWithContentsOfFile:filePath];
+        //NSLog(@"CONTENTS: %@", text);
+        NSArray *values = [text componentsSeparatedByString:@","];
+        
+        NSLog(@"VALUES: %@", values);
+        
+    }
+    
+}
 - (void) setLetterDayFromSaved
 {
     NSString *letterDay = [self getLetterDayFromStoredPreferences];
