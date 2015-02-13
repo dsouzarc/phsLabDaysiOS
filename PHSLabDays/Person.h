@@ -16,10 +16,12 @@
 @property (nonatomic, readonly, copy) NSString *name;
 @property (nonatomic, readonly, copy) NSString *phoneNumber;
 
-@property (nonatomic, readonly, copy) NSString *scienceOne;
-@property (nonatomic, readonly, copy) NSArray *scienceOneLabDays;
-@property (nonatomic, readonly, copy) NSString *scienceTwo;
-@property (nonatomic, readonly, copy) NSArray *scienceTwoLabDays;
+
+
+- (instancetype) initEverything:(NSString*)name_ phoneNumber:(NSString*)phoneNumber_
+                    carrier:(enum Notification)carrier_ notificationSchedule:(enum Notification)notificationSchedule_
+                    scienceOne:(NSString*)scienceOne_ scienceOneLabDays:(NSString*)scienceOneLabDays_
+                    scienceTwo:(NSString*)scienceTwo_ scienceTwoLabDays:(NSString*)scienceTwoLabDays_;
 
 //When the person should get notifications
 enum Notification {JUST_LAB_DAYS, EVERY_DAY};

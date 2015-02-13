@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9434F3B31A8D816C004715C6 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 9434F3B21A8D816C004715C6 /* Person.m */; };
+		9434F3B61A8D8E03004715C6 /* Science.m in Sources */ = {isa = PBXBuildFile; fileRef = 9434F3B51A8D8E03004715C6 /* Science.m */; };
 		9451D0E61A8C2C8E00236150 /* PHS Lab Days (Responses).csv in Resources */ = {isa = PBXBuildFile; fileRef = 9451D0E51A8C2C8E00236150 /* PHS Lab Days (Responses).csv */; };
 		948878C01A8AC1D30047E0CC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 948878BF1A8AC1D30047E0CC /* main.m */; };
 		948878C31A8AC1D30047E0CC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 948878C21A8AC1D30047E0CC /* AppDelegate.m */; };
@@ -38,6 +39,8 @@
 		11531391538DFF40912C521C /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9434F3B11A8D816C004715C6 /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
 		9434F3B21A8D816C004715C6 /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
+		9434F3B41A8D8E03004715C6 /* Science.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Science.h; sourceTree = "<group>"; };
+		9434F3B51A8D8E03004715C6 /* Science.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Science.m; sourceTree = "<group>"; };
 		9451D0E51A8C2C8E00236150 /* PHS Lab Days (Responses).csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "PHS Lab Days (Responses).csv"; sourceTree = "<group>"; };
 		948878BA1A8AC1D30047E0CC /* PHSLabDays.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PHSLabDays.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		948878BE1A8AC1D30047E0CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -133,6 +136,8 @@
 				948878EC1A8ACA7B0047E0CC /* SendMessageViewController.m */,
 				9434F3B11A8D816C004715C6 /* Person.h */,
 				9434F3B21A8D816C004715C6 /* Person.m */,
+				9434F3B41A8D8E03004715C6 /* Science.h */,
+				9434F3B51A8D8E03004715C6 /* Science.m */,
 				948878ED1A8ACA7B0047E0CC /* SendMessageViewController.xib */,
 				948878C71A8AC1D30047E0CC /* Main.storyboard */,
 				9451D0E51A8C2C8E00236150 /* PHS Lab Days (Responses).csv */,
@@ -315,6 +320,7 @@
 				948878C01A8AC1D30047E0CC /* main.m in Sources */,
 				948878E81A8AC9070047E0CC /* UserAuthenticationViewController.m in Sources */,
 				948878EE1A8ACA7B0047E0CC /* SendMessageViewController.m in Sources */,
+				9434F3B61A8D8E03004715C6 /* Science.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
