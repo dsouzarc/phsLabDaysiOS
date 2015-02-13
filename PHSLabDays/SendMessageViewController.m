@@ -13,6 +13,7 @@
 #import <SendGrid/SendGridEmail.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <CRToast/CRToast.h>
+#import "CHCSVParser.h"
 
 @interface SendMessageViewController () <UITextFieldDelegate, UIAlertViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 
