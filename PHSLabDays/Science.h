@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Person.h"
 
 @interface Science : NSObject
 
@@ -14,5 +15,7 @@
 @property (nonatomic, readonly, copy) NSArray *labDays;
 
 - (instancetype) initEverything:(NSString*)scienceName labDays:(NSArray*)labDays_;
+
+- (BOOL) isLabDay:(enum LetterDay)letterDay;
 
 @end

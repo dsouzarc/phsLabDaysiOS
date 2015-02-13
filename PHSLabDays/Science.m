@@ -22,4 +22,15 @@
     return self;
 }
 
+- (BOOL) isLabDay:(enum LetterDay)letterDay
+{
+    for(int i = 0; i < self.labDays.count; i++) {
+        if(((enum LetterDay)self.labDays[i]) == letterDay) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
 @end

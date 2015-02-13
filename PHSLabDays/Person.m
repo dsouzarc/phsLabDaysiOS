@@ -10,13 +10,40 @@
 
 @implementation Person
 
-- (instancetype) initEverything:(NSString *)name_ phoneNumber:(NSString *)phoneNumber_
-                        carrier:(enum Notification)carrier_ notificationSchedule:(enum Notification)notificationSchedule_
-                        scienceOne:(NSString *)scienceOne_ scienceOneLabDays:(NSString *)scienceOneLabDays_
-                        scienceTwo:(NSString *)scienceTwo_ scienceTwoLabDays:(NSString *)scienceTwoLabDays_
+
+- (instancetype) initEverything:(NSString *)name phoneNumber:(NSString *)phoneNumber_
+                        carrier:(enum Carrier)carrier_ letterDay:(enum LetterDay)letterDay_
+                        notificationSchedule:(enum Notification)notificationSchedule_
+                        scienceOne:(Science *)scienceOne_ scienceTwo:(Science *)scienceTwo_
 {
     self = [super init];
     
+    if(self) {
+        _name = name;
+        _phoneNumber = phoneNumber_;
+        _carrier = &carrier_;
+        _letterDay = &letterDay_;
+        _notificationSchedule = notificationSchedule_;
+        _scienceOne = scienceOne_;
+        _scienceTwo = scienceTwo_;
+    }
+    
+    return self;
+}
+
+- (BOOL) shouldGetMessage {
+    if(self.notificationSchedule == EVERYDAY) {
+        return YES;
+    }
+    
+
     
 }
+
+- (NSString *) labDayMessage
+{
+    return nil;
+}
+
+
 @end

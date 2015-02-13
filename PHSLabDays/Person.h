@@ -7,29 +7,31 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Science.h"
 
 @interface Person : NSObject
 
-@property (nonatomic, readonly) enum Carrier *carrier;
-@property (nonatomic, readonly) enum Notification *notificationSchedule;
+//When the person should get notifications
+typedef NS_ENUM(NSUInteger, Notification) { EVERYDAY, LABDAYS};
+typedef NS_ENUM(NSUInteger, Carrier) {VERIZON, ATTT, SPRINT, TMOBILE};
+typedef NS_ENUM(NSUInteger, LetterDay) {A, B, C, D, E, F, G};
 
 @property (nonatomic, readonly, copy) NSString *name;
 @property (nonatomic, readonly, copy) NSString *phoneNumber;
 
+@property (nonatomic, readonly) enum Carrier *carrier;
+@property (nonatomic, readonly) enum Notification notificationSchedule;
+@property (nonatomic, readonly) enum LetterDay *letterDay;
 
+@property (nonatomic, readonly, copy) Science *scienceOne;
+@property (nonatomic, readonly, copy) Science *scienceTwo;
 
-- (instancetype) initEverything:(NSString*)name_ phoneNumber:(NSString*)phoneNumber_
-                    carrier:(enum Notification)carrier_ notificationSchedule:(enum Notification)notificationSchedule_
-                    scienceOne:(NSString*)scienceOne_ scienceOneLabDays:(NSString*)scienceOneLabDays_
-                    scienceTwo:(NSString*)scienceTwo_ scienceTwoLabDays:(NSString*)scienceTwoLabDays_;
+- (instancetype) initEverything:(NSString*)name phoneNumber:(NSString*)phoneNumber_
+                        carrier:(enum Carrier)carrier_ letterDay:(enum LetterDay)letterDay_
+                        notificationSchedule:(enum Notification)notificationSchedule_
+                        scienceOne:(Science*)scienceOne_ scienceTwo:(Science*)scienceTwo_;
 
-//When the person should get notifications
-enum Notification {JUST_LAB_DAYS, EVERY_DAY};
-
-//The person's carrier
-enum Carrier {VERIZON, ATTT, SPRINT, TMOBILE};
-
-//The letter day
-enum Letter_Day {A, B, C, D, E, F, G};
+- (BOOL) shouldGetMessage;
+- (NSString*) labDayMessage;
 
 @end
