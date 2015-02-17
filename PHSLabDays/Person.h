@@ -12,7 +12,7 @@
 
 //When the person should get notifications
 typedef NS_ENUM(NSUInteger, Notification) { EVERYDAY, LABDAYS};
-typedef NS_ENUM(NSUInteger, Carrier) {VERIZON, ATTT, SPRINT, TMOBILE};
+typedef NS_ENUM(NSUInteger, Carrier) {VERIZON, ATTT, SPRINT, TMOBILE, VIRGINMOBILE, CINGULAR, NEXTEL};
 typedef NS_ENUM(NSUInteger, LetterDay) {A, B, C, D, E, F, G};
 
 @interface Person : NSObject

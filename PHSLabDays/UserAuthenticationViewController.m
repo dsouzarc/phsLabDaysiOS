@@ -83,6 +83,54 @@
     }
 }
 
+- (enum Carrier) parseCarrier:(NSString *)carrier
+{
+    carrier = [carrier lowercaseString];
+    
+    if([carrier containsString:@"verizon"]) {
+        return VERIZON;
+    }
+    if([carrier containsString:@"at"]) {
+        return ATTT;
+    }
+    if([carrier containsString:@"t-mobile"]) {
+        return TMOBILE;
+    }
+    if([carrier containsString:@"virgin"]) {
+        return VIRGINMOBILE;
+    }
+    if([carrier containsString:@"cingular"]) {
+        return CINGULAR;
+    }
+    if([carrier containsString:@"sprint"]) {
+        return SPRINT;
+    }
+    if([carrier containsString:@"nextel"]) {
+        return NEXTEL;
+    }
+    NSLog(@"ERROR PARSING CARRIER: %@", carrier);
+    return VERIZON;
+}
+
+- (NSString *) cleanPhoneNumber:(NSString *)raw
+{
+    raw = [raw stringByReplacingOccurrencesOfString:@" " withString:@""];
+    raw = [raw stringByReplacingOccurrencesOfString:@"(" withString:@""];
+    raw = [raw stringByReplacingOccurrencesOfString:@")" withString:@""];
+    raw = [raw stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    
+    //In case some idiot puts 911
+    raw = [raw stringByReplacingOccurrencesOfString:@"911" withString:@""];
+    return raw;
+}
+
+- (enum Notification) parseNotification:(NSString *)string
+{
+    if([string containsString:@"Every"]) {
+        return EVERYDAY;
+    }
+    return LABDAYS;
+}
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
