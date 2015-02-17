@@ -17,7 +17,7 @@
 
 @property (nonatomic, strong) UITextField *passwordField;
 
-@property (strong, atomic) NSMutableArray *people;
+@property (strong, atomic) NSMutableSet *people;
 
 @end
 
@@ -57,6 +57,8 @@
 
 - (void) updateRecipientsFromFile {
     
+    self.people = [[NSMutableSet alloc] init];
+    
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"PHS Lab Days (Responses)" ofType:@"csv"];
     NSString *fileContents = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
     
@@ -70,7 +72,7 @@
     
     NSArray *data = [fileContents componentsSeparatedByString:@"\n"];
     
-    for(int i = 0; i < 2; i++) {
+    for(int i = 0; i < data.count; i++) {
         NSString *line = data[i];
         
         line = [line stringByReplacingOccurrencesOfString:@", " withString:@"|"];
@@ -98,8 +100,10 @@
         
         Person *person = [[Person alloc] initEverything:name phoneNumber:phoneNumber carrier:carrier notificationSchedule:notificationSchedule scienceOne:firstScience scienceTwo:secondScience];
         
-        
+        [self.people addObject:person];
     }
+    
+    NSLog(@"SIZE!!!: %lu", (unsigned long)self.people.count);
 }
 
 - (NSArray *) getLabDays:(NSString *) raw
