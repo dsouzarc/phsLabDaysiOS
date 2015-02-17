@@ -13,7 +13,7 @@
 
 
 - (instancetype) initEverything:(NSString *)name phoneNumber:(NSString *)phoneNumber_
-                        carrier:(enum Carrier)carrier_ letterDay:(enum LetterDay)letterDay_
+                        carrier:(enum Carrier)carrier_
                         notificationSchedule:(enum Notification)notificationSchedule_
                         scienceOne:(Science *)scienceOne_ scienceTwo:(Science *)scienceTwo_
 {
@@ -23,7 +23,6 @@
         _name = name;
         _phoneNumber = phoneNumber_;
         _carrier = &carrier_;
-        _letterDay = &letterDay_;
         _notificationSchedule = notificationSchedule_;
         _scienceOne = scienceOne_;
         _scienceTwo = scienceTwo_;
@@ -32,23 +31,23 @@
     return self;
 }
 
-- (BOOL) shouldGetMessage {
+- (BOOL) shouldGetMessage:(enum LetterDay)letterDay_ {
     if(self.notificationSchedule == EVERYDAY) {
         return YES;
     }
     
-    return [self.scienceOne isLabDay:self.letterDay] || [self.scienceTwo isLabDay:self.letterDay];
+    return [self.scienceOne isLabDay:letterDay_] || [self.scienceTwo isLabDay:letterDay_];
 }
 
-- (NSString *) labDayMessage
+- (NSString *) labDayMessage:(enum LetterDay)letterDay_
 {
     NSMutableString *result = [[NSMutableString alloc] init];
     
-    if([self.scienceOne isLabDay:self.letterDay]) {
+    if([self.scienceOne isLabDay:letterDay_]) {
         [result appendString: [[NSString alloc] initWithFormat:@"Today is a lab day for %@", self.scienceOne.scienceName]];
     }
     
-    if([self.scienceTwo isLabDay:self.letterDay]) {
+    if([self.scienceTwo isLabDay:letterDay_]) {
         [result appendString: [[NSString alloc] initWithFormat:@"Today is a lab day for %@", self.scienceTwo.scienceName]];
     }
     

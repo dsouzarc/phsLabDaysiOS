@@ -23,17 +23,16 @@ typedef NS_ENUM(NSUInteger, LetterDay) {A, B, C, D, E, F, G};
 
 @property (nonatomic, readonly) enum Carrier *carrier;
 @property (nonatomic, readonly) enum Notification notificationSchedule;
-@property (nonatomic, readonly) enum LetterDay *letterDay;
 
 @property (nonatomic, readonly, copy) Science *scienceOne;
 @property (nonatomic, readonly, copy) Science *scienceTwo;
 
 - (instancetype) initEverything:(NSString*)name phoneNumber:(NSString*)phoneNumber_
-                        carrier:(enum Carrier)carrier_ letterDay:(enum LetterDay)letterDay_
+                        carrier:(enum Carrier)carrier_
                         notificationSchedule:(enum Notification)notificationSchedule_
                         scienceOne:(Science*)scienceOne_ scienceTwo:(Science*)scienceTwo_;
 
-- (BOOL) shouldGetMessage;
-- (NSString*) labDayMessage;
+- (BOOL) shouldGetMessage:(enum LetterDay)letterDay_;
+- (NSString*) labDayMessage:(enum LetterDay)letterDay_;
 
 @end
