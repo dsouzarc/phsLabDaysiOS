@@ -17,6 +17,8 @@
 
 @property (nonatomic, strong) UITextField *passwordField;
 
+@property (strong, atomic) NSMutableArray *people;
+
 @end
 
 @implementation UserAuthenticationViewController
@@ -38,8 +40,24 @@
     [super viewDidLoad];
     
     self.passwordField.delegate = self;
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        //Update the global array with the recipients
+        [self updateRecipientsFromFile];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //Say mission success
+        });
+    });
 
     // Do any additional setup after loading the view from its nib.
+    
+}
+
+- (void) updateRecipientsFromFile {
+    
+    
     
 }
 

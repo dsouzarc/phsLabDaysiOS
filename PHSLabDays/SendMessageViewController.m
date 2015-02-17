@@ -13,7 +13,6 @@
 #import <SendGrid/SendGridEmail.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <CRToast/CRToast.h>
-#import "CHCSVParser.h"
 
 @interface SendMessageViewController () <UITextFieldDelegate, UIAlertViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 
@@ -53,34 +52,10 @@
         
         //Set the letter day from the preference
         [self setLetterDayFromSaved];
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            
-            //Update the global array with the recipients
-            [self updateRecipientsFromFile];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                //Say mission success
-            });
-        });
     }
     return self;
 }
 
-- (void) updateRecipientsFromFile
-{
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"PHS Lab Days (Responses)" ofType:@"csv"];
-    
-    if(filePath) {
-        NSString *text = [NSString stringWithContentsOfFile:filePath];
-        //NSLog(@"CONTENTS: %@", text);
-        NSArray *values = [text componentsSeparatedByString:@","];
-        
-        NSLog(@"VALUES: %@", values);
-        
-    }
-    
-}
 - (void) setLetterDayFromSaved
 {
     NSString *letterDay = [self getLetterDayFromStoredPreferences];
