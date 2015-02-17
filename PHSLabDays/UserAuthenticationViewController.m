@@ -78,12 +78,67 @@
         
         NSArray *personDetails = [line componentsSeparatedByString:@","];
         
+        NSString *name = personDetails[1];
+        NSString *phoneNumber = [self formatPhoneNumber:personDetails[2]];
+        enum Carrier carrier = [self assignCarrier:personDetails[3]];
+        enum Notification notificationSchedule = [self parseNotification:personDetails[4]];
         
+        NSString *science1Name = personDetails[5];
+        NSArray *science1LabDays = [self getLabDays:personDetails[6]];
+        
+        NSArray *science2LabDays = [self getLabDays:personDetails[7]];
+        NSString *science2Name = nil;
+        
+        if(personDetails.count > 8) {
+            science2Name = personDetails[8];
+        }
+        
+        Science *firstScience = [[Science alloc] initEverything:science1Name labDays:science1LabDays];
+        Science *secondScience = science2Name == nil ? nil : [[Science alloc] initEverything:science2Name labDays:science2LabDays];
+        
+        Person *person = [[Person alloc] initEverything:name phoneNumber:phoneNumber carrier:carrier notificationSchedule:notificationSchedule scienceOne:firstScience scienceTwo:secondScience];
         
     }
 }
 
-- (enum Carrier) parseCarrier:(NSString *)carrier
+- (NSArray *) getLabDays:(NSString *) raw
+{
+    NSMutableArray *array = [[NSMutableArray alloc] init];
+    
+    for(int i = 0; i < raw.length; i++) {
+        unichar ascii = [raw characterAtIndex:i];
+        
+        switch (ascii) {
+            case 65:
+                [array addObject:@(A)];
+                break;
+            case 66:
+                [array addObject:@(B)];
+                break;
+            case 67:
+                [array addObject:@(C)];
+                break;
+            case 68:
+                 [array addObject:@(D)];
+                 break;
+            case 69:
+                [array addObject:@(E)];
+                break;
+            case 70:
+                [array addObject:@(F)];
+                break;
+            case 71:
+                [array addObject:@(G)];
+                break;
+            default:
+                break;
+        }
+    }
+    
+    return array;
+}
+
+- (enum Carrier) assignCarrier:(NSString *)carrier
 {
     carrier = [carrier lowercaseString];
     
@@ -112,7 +167,7 @@
     return VERIZON;
 }
 
-- (NSString *) cleanPhoneNumber:(NSString *)raw
+- (NSString *) formatPhoneNumber:(NSString *)raw
 {
     raw = [raw stringByReplacingOccurrencesOfString:@" " withString:@""];
     raw = [raw stringByReplacingOccurrencesOfString:@"(" withString:@""];
