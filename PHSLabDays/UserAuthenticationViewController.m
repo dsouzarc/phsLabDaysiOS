@@ -57,8 +57,30 @@
 
 - (void) updateRecipientsFromFile {
     
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"PHS Lab Days (Responses)" ofType:@"csv"];
+    NSString *fileContents = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
     
+    if(!fileContents) {
+        NSLog(@"ERROR READING FILE");
+        return;
+    }
+    else {
+        NSLog(@"Gucci");
+    }
     
+    NSArray *data = [fileContents componentsSeparatedByString:@"\n"];
+    
+    for(int i = 0; i < 2; i++) {
+        NSString *line = data[i];
+        
+        line = [line stringByReplacingOccurrencesOfString:@", " withString:@"|"];
+        line = [line stringByReplacingOccurrencesOfString:@",," withString:@", ,"];
+        
+        NSArray *personDetails = [line componentsSeparatedByString:@","];
+        
+        
+        
+    }
 }
 
 
