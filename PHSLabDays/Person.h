@@ -15,13 +15,13 @@ typedef NS_ENUM(NSUInteger, Notification) { EVERYDAY, LABDAYS};
 typedef NS_ENUM(NSUInteger, Carrier) {VERIZON, ATTT, SPRINT, TMOBILE, VIRGINMOBILE, CINGULAR, NEXTEL};
 typedef NS_ENUM(NSUInteger, LetterDay) {A, B, C, D, E, F, G};
 
-@interface Person : NSObject
+@interface Person : NSObject <NSCopying>
 
 
 @property (nonatomic, readonly, copy) NSString *name;
 @property (nonatomic, readonly, copy) NSString *phoneNumber;
 
-@property (nonatomic, readonly) enum Carrier *carrier;
+@property (nonatomic, readonly) enum Carrier carrier;
 @property (nonatomic, readonly) enum Notification notificationSchedule;
 
 @property (nonatomic, readonly, copy) Science *scienceOne;
@@ -34,5 +34,7 @@ typedef NS_ENUM(NSUInteger, LetterDay) {A, B, C, D, E, F, G};
 
 - (BOOL) shouldGetMessage:(enum LetterDay)letterDay_;
 - (NSString*) labDayMessage:(enum LetterDay)letterDay_;
+- (NSString*) carrierEmail;
+
 
 @end

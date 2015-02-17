@@ -98,7 +98,6 @@
         
         Person *person = [[Person alloc] initEverything:name phoneNumber:phoneNumber carrier:carrier notificationSchedule:notificationSchedule scienceOne:firstScience scienceTwo:secondScience];
         
-        [self people]
         
     }
 }

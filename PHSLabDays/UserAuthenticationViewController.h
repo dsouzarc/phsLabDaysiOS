@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UserAuthenticationViewController : UIViewController 
+@interface UserAuthenticationViewController : UIViewController
 
 @end

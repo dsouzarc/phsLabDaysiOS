@@ -57,5 +57,43 @@
     return result;
 }
 
+//VERIZON, ATTT, SPRINT, TMOBILE, VIRGINMOBILE, CINGULAR, NEXTEL
+- (NSString *) carrierEmail
+{
+    switch(self.carrier) {
+        case VERIZON:
+            return @"@vtext.com";
+        case ATTT:
+            return @"@txt.att.net";
+        case SPRINT:
+            return @"@messaging.sprintpcs.com";
+        case TMOBILE:
+            return @"@tmomail.net";
+        case VIRGINMOBILE:
+            return @"@vmobl.com";
+        case CINGULAR:
+            return @"@vmobl.com";
+        case NEXTEL:
+            return @"@messaging.nextel.com";
+        default:
+            return @"@vtext.com";
+    }
+}
+
+- (NSUInteger) hash
+{
+    return 0;
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    id copy = [[[self class] alloc] init];
+    
+    if(copy) {
+    }
+    
+    return copy;
+}
+
 
 @end
