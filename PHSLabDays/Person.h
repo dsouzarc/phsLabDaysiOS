@@ -34,7 +34,10 @@ typedef NS_ENUM(NSUInteger, LetterDay) {A, B, C, D, E, F, G};
 
 - (BOOL) shouldGetMessage:(enum LetterDay)letterDay_;
 - (NSString*) labDayMessage:(enum LetterDay)letterDay_;
-- (NSString*) carrierEmail;
+- (NSString*) getCarrierEmail;
+- (NSString*) phoneEmail;
 
+- (NSUInteger) hash;
+- (BOOL) isEqual:(id)object;
 
 @end

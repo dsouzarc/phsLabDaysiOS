@@ -58,7 +58,7 @@
 }
 
 //VERIZON, ATTT, SPRINT, TMOBILE, VIRGINMOBILE, CINGULAR, NEXTEL
-- (NSString *) carrierEmail
+- (NSString *) getCarrierEmail
 {
     switch(self.carrier) {
         case VERIZON:
@@ -80,9 +80,19 @@
     }
 }
 
+- (NSString*) phoneEmail
+{
+    return [NSString stringWithFormat:@"%@%@", self.getCarrierEmail, self.phoneNumber];
+}
+
 - (NSUInteger) hash
 {
-    return 0;
+    return [self.phoneEmail hash];
+}
+
+- (BOOL) isEqual:(id)object
+{
+    return self.hash == ((Person *)object).hash;
 }
 
 - (id)copyWithZone:(NSZone *)zone
