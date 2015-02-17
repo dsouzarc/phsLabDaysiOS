@@ -36,6 +36,9 @@
         return YES;
     }
     
+    if(self.scienceTwo == nil) {
+        return [self.scienceOne isLabDay:letterDay_];
+    }
     return [self.scienceOne isLabDay:letterDay_] || [self.scienceTwo isLabDay:letterDay_];
 }
 
@@ -47,7 +50,7 @@
         [result appendString: [[NSString alloc] initWithFormat:@"Today is a lab day for %@", self.scienceOne.scienceName]];
     }
     
-    if([self.scienceTwo isLabDay:letterDay_]) {
+    if(self.scienceTwo != nil && [self.scienceTwo isLabDay:letterDay_]) {
         [result appendString: [[NSString alloc] initWithFormat:@"Today is a lab day for %@", self.scienceTwo.scienceName]];
     }
     
