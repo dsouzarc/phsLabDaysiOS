@@ -17,5 +17,6 @@
 - (instancetype) initEverything:(NSString*)scienceName labDays:(NSArray*)labDays_;
 
 - (BOOL) isLabDay:(enum LetterDay)letterDay;
+- (NSString *)toString;
 
 @end

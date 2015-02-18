@@ -72,7 +72,7 @@
     
     NSArray *data = [fileContents componentsSeparatedByString:@"\n"];
     
-    for(int i = 0; i < data.count; i++) {
+    for(int i = 0; i < data.count && i < 2; i++) {
         NSString *line = data[i];
         
         line = [line stringByReplacingOccurrencesOfString:@", " withString:@"|"];
@@ -103,13 +103,21 @@
         [self.people addObject:person];
     }
     
-    NSLog(@"SIZE!!!: %lu", (unsigned long)self.people.count);
+    int counter = 0;
+    for(Person *person in self.people) {
+        if(counter < 2) {
+            NSLog(@"\nPERSON: %@ IS LAB DAY: %d\n", person.toString, [person shouldGetMessage:A]);
+        }
+        counter++;
+    }
 }
 
 - (NSArray *) getLabDays:(NSString *) raw
 {
+    raw = [raw stringByReplacingOccurrencesOfString:@"|" withString:@""];
     NSMutableArray *array = [[NSMutableArray alloc] init];
     
+    NSLog(@"CHAR RESULT: %@", raw);
     for(int i = 0; i < raw.length; i++) {
         unichar ascii = [raw characterAtIndex:i];
         

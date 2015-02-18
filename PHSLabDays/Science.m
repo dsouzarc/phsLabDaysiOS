@@ -33,4 +33,18 @@
     return NO;
 }
 
+#define myValueString(enum) [@[@"A",@"B",@"C", @"D", @"E", @"F", @"G"] objectAtIndex:enum]
+
+- (NSString*) toString
+{
+    NSMutableString *niceLetterDays = [[NSMutableString alloc] init];
+    
+    for(int i = 0; i < self.labDays.count; i++) {
+        NSString *res = [Person letterDayToString:((enum LetterDay)self.labDays[i])];
+        [niceLetterDays appendString:[NSString stringWithFormat:@" Lab: %@\t", res]];
+    }
+    
+    return [NSString stringWithFormat:@"SCIENCE: %@\t LAB DAYS: %@", self.scienceName, niceLetterDays];
+}
+
 @end
