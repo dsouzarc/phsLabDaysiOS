@@ -13,6 +13,8 @@
 #import <SendGrid/SendGridEmail.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <CRToast/CRToast.h>
+#import "Person.h"
+#import "Science.h"
 
 @interface SendMessageViewController () <UITextFieldDelegate, UIAlertViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 
@@ -32,7 +34,7 @@
 @property (strong, nonatomic) NSArray *_letterDayPickerData;
 @property (strong, nonatomic) NSUserDefaults *_storedPreferences;
 
-@property (strong, atomic) NSMutableArray *people;
+@property (strong, atomic) NSMutableSet *people;
 
 @end
 
@@ -68,11 +70,71 @@
     
 }
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setLetterDayFromSaved];
-    NSLog(@"Send Message loaded");
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //Update the global array with the recipients
+        [self updateRecipientsFromFile];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //Say mission success
+        });
+    });
+}
+
+- (void) updateRecipientsFromFile {
+    
+    self.people = [[NSMutableSet alloc] init];
+    
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"PHS Lab Days (Responses)" ofType:@"csv"];
+    NSString *fileContents = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+    
+    if(!fileContents) {
+        NSLog(@"ERROR READING FILE");
+        return;
+    }
+    else {
+        NSLog(@"Gucci");
+    }
+    
+    NSArray *data = [fileContents componentsSeparatedByString:@"\n"];
+    
+    for(int i = 0; i < data.count; i++) {
+        NSString *line = data[i];
+        
+        line = [line stringByReplacingOccurrencesOfString:@", " withString:@"|"];
+        line = [line stringByReplacingOccurrencesOfString:@",," withString:@", ,"];
+        
+        NSArray *personDetails = [line componentsSeparatedByString:@","];
+        
+        NSString *name = personDetails[1];
+        NSString *phoneNumber = [self formatPhoneNumber:personDetails[2]];
+        enum Carrier carrier = [self assignCarrier:personDetails[3]];
+        enum Notification notificationSchedule = [self parseNotification:personDetails[4]];
+        
+        NSString *science1Name = personDetails[5];
+        NSString *science1LabDays = personDetails[6];
+        NSString *science2LabDays = personDetails[7];
+        NSString *science2Name = nil;
+        
+        if(personDetails.count > 8) {
+            science2Name = personDetails[8];
+        }
+        
+        Science *firstScience = [[Science alloc] initEverything:science1Name labDays:science1LabDays];
+        Science *secondScience = science2Name == nil ? nil : [[Science alloc] initEverything:science2Name labDays:science2LabDays];
+        
+        Person *person = [[Person alloc] initEverything:name phoneNumber:phoneNumber carrier:carrier notificationSchedule:notificationSchedule scienceOne:firstScience scienceTwo:secondScience];
+        [self.people addObject:person];
+    }
+    
+    int counter = 0;
+    for(Person *person in self.people) {
+        NSLog(@"\nPERSON: %@ IS LAB DAY: %d\n", person.toString, [person shouldGetMessage:@"A"]);
+        counter++;
+    }
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -127,40 +189,53 @@
     
 }
 
-- (void) setupSendGrid {
-    UIAlertView * alert = [[UIAlertView alloc]
-                           initWithTitle:@"Login Information"
-                           message:@"Please enter your login information:"
-                           delegate:self
-                           cancelButtonTitle:@"Continue"
-                           otherButtonTitles:nil];
+- (enum Carrier) assignCarrier:(NSString *)carrier
+{
+    carrier = [carrier lowercaseString];
     
-    alert.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;
-    
-    UITextField *usernameTextField = [alert textFieldAtIndex:0];
-    usernameTextField.keyboardType = UIKeyboardTypeDefault;
-    usernameTextField.placeholder = @"Username";
-    
-    UITextField *passwordTextField = [alert textFieldAtIndex:1];
-    passwordTextField.keyboardType = UIKeyboardTypeDefault;
-    passwordTextField.placeholder = @"Password";
-    
-    [alert show];
+    if([carrier containsString:@"verizon"]) {
+        return VERIZON;
+    }
+    if([carrier containsString:@"at"]) {
+        return ATTT;
+    }
+    if([carrier containsString:@"t-mobile"]) {
+        return TMOBILE;
+    }
+    if([carrier containsString:@"virgin"]) {
+        return VIRGINMOBILE;
+    }
+    if([carrier containsString:@"cingular"]) {
+        return CINGULAR;
+    }
+    if([carrier containsString:@"sprint"]) {
+        return SPRINT;
+    }
+    if([carrier containsString:@"nextel"]) {
+        return NEXTEL;
+    }
+    NSLog(@"ERROR PARSING CARRIER: %@", carrier);
+    return VERIZON;
 }
 
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+- (NSString *) formatPhoneNumber:(NSString *)raw
 {
-    return 1;
+    raw = [raw stringByReplacingOccurrencesOfString:@" " withString:@""];
+    raw = [raw stringByReplacingOccurrencesOfString:@"(" withString:@""];
+    raw = [raw stringByReplacingOccurrencesOfString:@")" withString:@""];
+    raw = [raw stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    
+    //In case some idiot puts 911
+    raw = [raw stringByReplacingOccurrencesOfString:@"911" withString:@""];
+    return raw;
 }
 
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+- (enum Notification) parseNotification:(NSString *)string
 {
-    return self._letterDayPickerData.count;
-}
-
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
-    return self._letterDayPickerData[row];
+    if([string containsString:@"Every"]) {
+        return EVERYDAY;
+    }
+    return LABDAYS;
 }
 
 - (void)makeToast:(NSString *)toastMessage: (UIColor *)backgroundColor: (UIColor *)textColor {
@@ -206,6 +281,42 @@
     return storedGreeting;
 }
 
+- (void) setupSendGrid {
+    UIAlertView * alert = [[UIAlertView alloc]
+                           initWithTitle:@"Login Information"
+                           message:@"Please enter your login information:"
+                           delegate:self
+                           cancelButtonTitle:@"Continue"
+                           otherButtonTitles:nil];
+    
+    alert.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;
+    
+    UITextField *usernameTextField = [alert textFieldAtIndex:0];
+    usernameTextField.keyboardType = UIKeyboardTypeDefault;
+    usernameTextField.placeholder = @"Username";
+    
+    UITextField *passwordTextField = [alert textFieldAtIndex:1];
+    passwordTextField.keyboardType = UIKeyboardTypeDefault;
+    passwordTextField.placeholder = @"Password";
+    
+    [alert show];
+}
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return self._letterDayPickerData.count;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    return self._letterDayPickerData[row];
+}
+
 - (void) setGreetingToStoredPreferences: (NSString *)greeting
 {
     [self._storedPreferences setValue:greeting forKey:@"greeting"];
@@ -219,7 +330,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
 
 - (IBAction)clearSavedButton:(id)sender {
     self.keychain[@"username"] = nil;
