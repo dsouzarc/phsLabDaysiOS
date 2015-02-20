@@ -23,7 +23,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *greetingTextField;
 @property (weak, nonatomic) IBOutlet UITextField *nextVacationTextField;
 @property (weak, nonatomic) IBOutlet UILabel *numberOfSchoolDaysLeftLabel;
-
 @property (weak, nonatomic) IBOutlet UIPickerView *letterDayPickerView;
 
 - (IBAction)sendDailyMessageButton:(id)sender;
@@ -205,8 +204,11 @@
     NSLog(@"STORED %@", [self getLetterDayFromStoredPreferences]);
 }
 
-- (IBAction)numberOfDaysLeftStepper:(id)sender {
-    
+- (IBAction)numberOfDaysLeftStepper:(UIStepper*)stepper {
+    int increase = (int)[stepper value];
+    NSLog(@"Increase: %d", increase);
+    int previous = [[self getNumberOfDaysLeftFromStoredPreferences] intValue];
+    self.numberOfSchoolDaysLeftLabel.text = [NSString stringWithFormat:@"%d", (increase + previous)];
 }
 
 - (enum Carrier) assignCarrier:(NSString *)carrier
@@ -340,6 +342,21 @@
 - (void) setGreetingToStoredPreferences: (NSString *)greeting
 {
     [self._storedPreferences setValue:greeting forKey:@"greeting"];
+}
+
+- (void) setNumberOfDaysLeftToStoredPreferences: (NSString*)numDays
+{
+    [self._storedPreferences setValue:numDays forKey:@"numdays"];
+}
+
+- (NSString*) getNumberOfDaysLeftFromStoredPreferences
+{
+    NSString* daysLeft = [self._storedPreferences stringForKey:@"numDays"];
+    
+    if(daysLeft == nil) {
+        return @"100";
+    }
+    return daysLeft;
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
