@@ -33,8 +33,10 @@
 
 @property (strong, nonatomic) NSArray *_letterDayPickerData;
 @property (strong, nonatomic) NSUserDefaults *_storedPreferences;
-
 @property (strong, atomic) NSMutableSet *people;
+
+@property (strong, nonatomic) UIAlertView *enterLoginInfoAV;
+@property (strong, nonatomic) UIAlertView *confirmationDailyAV;
 
 @end
 
@@ -73,7 +75,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setLetterDayFromSaved];
-
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         //Update the global array with the recipients
         [self updateRecipientsFromFile];
@@ -139,22 +141,31 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     
-    NSLog(@"Entered: %@",[[alertView textFieldAtIndex:0] text]);
-    
-    if([alertView textFieldAtIndex:0].text.length <= 5 || [alertView textFieldAtIndex:1].text.length <= 5) {
-        [self makeToast:@"Username/Password too short" :[UIColor redColor] :[UIColor blackColor]];
-        [self setupSendGrid];
+    if(alertView == self.enterLoginInfoAV) {
+        
+        if([alertView textFieldAtIndex:0].text.length <= 5 || [alertView textFieldAtIndex:1].text.length <= 5) {
+            [self makeToast:@"Username/Password too short" :[UIColor redColor] :[UIColor blackColor]];
+            [self setupSendGrid];
+        }
+        else {
+            self.keychain[@"username"] = [alertView textFieldAtIndex:0].text;
+            self.keychain[@"password"] = [alertView textFieldAtIndex:1].text;
+            [self makeToast:@"Successfully saved username and password" :[UIColor greenColor] :[UIColor blackColor]];
+        };
     }
-    else {
-        self.keychain[@"username"] = [alertView textFieldAtIndex:0].text;
-        self.keychain[@"password"] = [alertView textFieldAtIndex:1].text;
-        [self makeToast:@"Successfully saved username and password" :[UIColor greenColor] :[UIColor blackColor]];
-    };
+    
+    else if(alertView == self.confirmationDailyAV) {
+        
+        //Yes, send the message
+        if(buttonIndex == 1) {
+            
+        }
+    }
 }
 
 - (IBAction)sendSpecialMessageButton:(id)sender {
     [sender setTitle:@"Sending..." forState:UIControlStateNormal];
-
+    
     if(self.keychain[@"username"] == nil || self.keychain[@"password"] == nil) {
         [self setupSendGrid];
     }
@@ -162,7 +173,7 @@
         //TO DO
         //[self sendMessage];
     }
-
+    
 }
 
 - (IBAction)sendDailyMessageButton:(id)sender {
@@ -172,8 +183,17 @@
         [self setupSendGrid];
     }
     else {
-        //TO DO
-        //[self sendMessage];
+        self.confirmationDailyAV = [[UIAlertView alloc]
+                               initWithTitle:@"Confirmation"
+                               message:@"Are you sure you want to send this message?"
+                               delegate:self
+                               //^(UIAlertView *alertView, NSInteger buttonIndex) {
+                               //   NSLog(@"CLICKED:");
+                               //}
+                               cancelButtonTitle:@"Cancel"
+                               otherButtonTitles:@"Send Message", nil];
+        [self.confirmationDailyAV show];
+        
     }
 }
 
@@ -282,24 +302,24 @@
 }
 
 - (void) setupSendGrid {
-    UIAlertView * alert = [[UIAlertView alloc]
-                           initWithTitle:@"Login Information"
-                           message:@"Please enter your login information:"
-                           delegate:self
-                           cancelButtonTitle:@"Continue"
-                           otherButtonTitles:nil];
+    self.enterLoginInfoAV = [[UIAlertView alloc]
+                             initWithTitle:@"Login Information"
+                             message:@"Please enter your login information:"
+                             delegate:self
+                             cancelButtonTitle:@"Continue"
+                             otherButtonTitles:nil];
     
-    alert.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;
+    self.enterLoginInfoAV.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;
     
-    UITextField *usernameTextField = [alert textFieldAtIndex:0];
+    UITextField *usernameTextField = [self.enterLoginInfoAV textFieldAtIndex:0];
     usernameTextField.keyboardType = UIKeyboardTypeDefault;
     usernameTextField.placeholder = @"Username";
     
-    UITextField *passwordTextField = [alert textFieldAtIndex:1];
+    UITextField *passwordTextField = [self.enterLoginInfoAV textFieldAtIndex:1];
     passwordTextField.keyboardType = UIKeyboardTypeDefault;
     passwordTextField.placeholder = @"Password";
     
-    [alert show];
+    [self.enterLoginInfoAV show];
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
