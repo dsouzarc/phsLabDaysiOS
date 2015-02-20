@@ -72,7 +72,7 @@
     
     NSArray *data = [fileContents componentsSeparatedByString:@"\n"];
     
-    for(int i = 0; i < data.count && i < 2; i++) {
+    for(int i = 0; i < data.count; i++) {
         NSString *line = data[i];
         
         line = [line stringByReplacingOccurrencesOfString:@", " withString:@"|"];
@@ -86,9 +86,8 @@
         enum Notification notificationSchedule = [self parseNotification:personDetails[4]];
         
         NSString *science1Name = personDetails[5];
-        NSArray *science1LabDays = [self getLabDays:personDetails[6]];
-        
-        NSArray *science2LabDays = [self getLabDays:personDetails[7]];
+        NSString *science1LabDays = personDetails[6];
+        NSString *science2LabDays = personDetails[7];
         NSString *science2Name = nil;
         
         if(personDetails.count > 8) {
@@ -99,56 +98,14 @@
         Science *secondScience = science2Name == nil ? nil : [[Science alloc] initEverything:science2Name labDays:science2LabDays];
         
         Person *person = [[Person alloc] initEverything:name phoneNumber:phoneNumber carrier:carrier notificationSchedule:notificationSchedule scienceOne:firstScience scienceTwo:secondScience];
-        
         [self.people addObject:person];
     }
     
     int counter = 0;
     for(Person *person in self.people) {
-        if(counter < 2) {
-            NSLog(@"\nPERSON: %@ IS LAB DAY: %d\n", person.toString, [person shouldGetMessage:A]);
-        }
+        NSLog(@"\nPERSON: %@ IS LAB DAY: %d\n", person.toString, [person shouldGetMessage:@"A"]);
         counter++;
     }
-}
-
-- (NSArray *) getLabDays:(NSString *) raw
-{
-    raw = [raw stringByReplacingOccurrencesOfString:@"|" withString:@""];
-    NSMutableArray *array = [[NSMutableArray alloc] init];
-    
-    NSLog(@"CHAR RESULT: %@", raw);
-    for(int i = 0; i < raw.length; i++) {
-        unichar ascii = [raw characterAtIndex:i];
-        
-        switch (ascii) {
-            case 65:
-                [array addObject:@(A)];
-                break;
-            case 66:
-                [array addObject:@(B)];
-                break;
-            case 67:
-                [array addObject:@(C)];
-                break;
-            case 68:
-                 [array addObject:@(D)];
-                 break;
-            case 69:
-                [array addObject:@(E)];
-                break;
-            case 70:
-                [array addObject:@(F)];
-                break;
-            case 71:
-                [array addObject:@(G)];
-                break;
-            default:
-                break;
-        }
-    }
-    
-    return array;
 }
 
 - (enum Carrier) assignCarrier:(NSString *)carrier

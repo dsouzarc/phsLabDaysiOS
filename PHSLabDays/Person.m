@@ -11,7 +11,6 @@
 
 @implementation Person
 
-
 - (instancetype) initEverything:(NSString *)name phoneNumber:(NSString *)phoneNumber_
                         carrier:(enum Carrier)carrier_
                         notificationSchedule:(enum Notification)notificationSchedule_
@@ -22,7 +21,7 @@
     if(self) {
         _name = name;
         _phoneNumber = phoneNumber_;
-        _carrier = &carrier_;
+        _carrier = carrier_;
         _notificationSchedule = notificationSchedule_;
         _scienceOne = scienceOne_;
         _scienceTwo = scienceTwo_;
@@ -31,7 +30,7 @@
     return self;
 }
 
-- (BOOL) shouldGetMessage:(enum LetterDay)letterDay_ {
+- (BOOL) shouldGetMessage:(NSString*)letterDay_ {
     if(self.notificationSchedule == EVERYDAY) {
         return YES;
     }
@@ -42,7 +41,7 @@
     return [self.scienceOne isLabDay:letterDay_] || [self.scienceTwo isLabDay:letterDay_];
 }
 
-- (NSString *) labDayMessage:(enum LetterDay)letterDay_
+- (NSString *) labDayMessage:(NSString*)letterDay_
 {
     NSMutableString *result = [[NSMutableString alloc] init];
     
@@ -79,58 +78,6 @@
             return @"@messaging.nextel.com";
         default:
             return @"@vtext.com";
-    }
-}
-
-+ (NSString*) letterDayToString:(enum LetterDay)day_
-{
-    switch (day_) {
-        case A:
-            return @"A";
-        case B:
-            return @"B";
-        case C:
-            return @"C";
-        case D:
-            return @"D";
-        case E:
-            return @"E";
-        case F:
-            return @"F";
-        case G:
-            return @"G";
-        default:
-            NSLog(@"INVALID AT TOSTRING ");
-            return @"INVALID";
-    }
-}
-
-- (enum LetterDay) letterDayFromString: (NSString*)string_
-{
-    return [self asciiToLetterDay:[string_ characterAtIndex:0]];
-}
-
-- (enum LetterDay) asciiToLetterDay:(unichar)ascii
-{
-    switch (ascii) {
-        case 65:
-            return A;
-            break;
-        case 66:
-            return B;
-        case 67:
-            return C;
-        case 68:
-            return D;
-            break;
-        case 69:
-            return E;
-        case 70:
-            return F;
-        case 71:
-            return G;
-        default:
-            return nil;
     }
 }
 

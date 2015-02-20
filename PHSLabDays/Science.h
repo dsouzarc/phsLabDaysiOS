@@ -12,11 +12,11 @@
 @interface Science : NSObject
 
 @property (nonatomic, readonly, copy) NSString *scienceName;
-@property (nonatomic, readonly, copy) NSArray *labDays;
+@property (nonatomic, readonly, copy) NSString *labDays;
 
-- (instancetype) initEverything:(NSString*)scienceName labDays:(NSArray*)labDays_;
+- (instancetype) initEverything:(NSString*)scienceName labDays:(NSString*)labDays_;
 
-- (BOOL) isLabDay:(enum LetterDay)letterDay;
+- (BOOL) isLabDay:(NSString*)letterDay;
 - (NSString *)toString;
 
 @end
