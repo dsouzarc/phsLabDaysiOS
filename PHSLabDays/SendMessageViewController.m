@@ -56,14 +56,6 @@
     return self;
 }
 
-- (void) setLetterDayFromSaved
-{
-    NSString *letterDay = [self getLetterDayFromStoredPreferences];
-    
-    unichar letter = [[letterDay uppercaseString] characterAtIndex:0];
-    int arrayLocation = letter - 65;
-    [self.letterDayPickerView selectRow:arrayLocation inComponent:0 animated:YES];
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -163,8 +155,6 @@
     //The letter day info is already saved
     [self setNumberOfDaysLeftToStoredPreferences:self.numberOfSchoolDaysLeftLabel.text];
     [self setGreetingToStoredPreferences:self.greetingTextField.text];
-    
-    NSLog(@"Saving: %@", self.numberOfSchoolDaysLeftLabel.text);
     [self setNextVacationToStoredPreferences:self.nextVacationTextField.text];
 }
 
@@ -204,10 +194,7 @@
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    NSLog(@"CHOSEN: %@", self._letterDayPickerData[row]);
-    NSString *chosenLetterDay = self._letterDayPickerData[row];
-    [self setLetterDayToStoredPreferences:chosenLetterDay];
-    NSLog(@"STORED %@", [self getLetterDayFromStoredPreferences]);
+    [self setLetterDayToStoredPreferences:self._letterDayPickerData[row]];
 }
 
 - (IBAction)numberOfDaysLeftStepper:(UIStepper*)stepper {
@@ -265,47 +252,13 @@
     return LABDAYS;
 }
 
-- (void)makeToast:(NSString *)toastMessage: (UIColor *)backgroundColor: (UIColor *)textColor {
-    NSDictionary *options = @{
-                              kCRToastTextKey : toastMessage,
-                              kCRToastBackgroundColorKey : backgroundColor,
-                              kCRToastTextColorKey : textColor,
-                              kCRToastTextAlignmentKey : @(NSTextAlignmentCenter),
-                              kCRToastAnimationInTypeKey : @(CRToastAnimationTypeGravity),
-                              kCRToastAnimationOutTypeKey : @(CRToastAnimationTypeGravity),
-                              kCRToastAnimationInDirectionKey : @(CRToastAnimationDirectionLeft),
-                              kCRToastStatusBarStyleKey : @(CRToastTypeNavigationBar),
-                              kCRToastAnimationOutDirectionKey : @(CRToastAnimationDirectionRight)
-                              };
-    [CRToastManager showNotificationWithOptions:options
-                                completionBlock:^{
-                                    NSLog(@"Completed");
-                                }];
-}
-
-- (NSString *) getLetterDayFromStoredPreferences
+- (void) setLetterDayFromSaved
 {
-    NSString *storedLetterDay = [self._storedPreferences stringForKey:@"letter_day"];
+    NSString *letterDay = [self getLetterDayFromStoredPreferences];
     
-    if(storedLetterDay == nil) {
-        return @"A";
-    }
-    return storedLetterDay;
-}
-
-- (void) setLetterDayToStoredPreferences: (NSString *)letterDay
-{
-    [self._storedPreferences setValue:letterDay forKey:@"letter_day"];
-}
-
-- (NSString *) getGreetingFromStoredPreferences
-{
-    NSString *storedGreeting = [self._storedPreferences stringForKey:@"greeting"];
-    
-    if(storedGreeting == nil) {
-        return @"Hi ";
-    }
-    return storedGreeting;
+    unichar letter = [[letterDay uppercaseString] characterAtIndex:0];
+    int arrayLocation = letter - 65;
+    [self.letterDayPickerView selectRow:arrayLocation inComponent:0 animated:YES];
 }
 
 - (void) setupSendGrid {
@@ -344,6 +297,69 @@
     return self._letterDayPickerData[row];
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self.view endEditing:YES];
+    [super touchesBegan:touches withEvent:event];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
+- (IBAction)clearSavedButton:(id)sender {
+    self.keychain[@"username"] = nil;
+    self.keychain[@"password"] = nil;
+    [self makeToast:@"User information cleared" :[UIColor redColor] :[UIColor blackColor]];
+}
+
+- (void)makeToast:(NSString *)toastMessage: (UIColor *)backgroundColor: (UIColor *)textColor {
+    NSDictionary *options = @{
+                              kCRToastTextKey : toastMessage,
+                              kCRToastBackgroundColorKey : backgroundColor,
+                              kCRToastTextColorKey : textColor,
+                              kCRToastTextAlignmentKey : @(NSTextAlignmentCenter),
+                              kCRToastAnimationInTypeKey : @(CRToastAnimationTypeGravity),
+                              kCRToastAnimationOutTypeKey : @(CRToastAnimationTypeGravity),
+                              kCRToastAnimationInDirectionKey : @(CRToastAnimationDirectionLeft),
+                              kCRToastStatusBarStyleKey : @(CRToastTypeNavigationBar),
+                              kCRToastAnimationOutDirectionKey : @(CRToastAnimationDirectionRight)
+                              };
+    [CRToastManager showNotificationWithOptions:options
+                                completionBlock:^{
+                                    NSLog(@"Completed");
+                                }];
+}
+
+//
+//
+// GET/SET METHODS FROM STORED PREFERENCES
+//
+//
+- (NSString *) getLetterDayFromStoredPreferences
+{
+    NSString *storedLetterDay = [self._storedPreferences stringForKey:@"letter_day"];
+    
+    if(storedLetterDay == nil) {
+        return @"A";
+    }
+    return storedLetterDay;
+}
+
+- (void) setLetterDayToStoredPreferences: (NSString *)letterDay
+{
+    [self._storedPreferences setValue:letterDay forKey:@"letter_day"];
+}
+
+- (NSString *) getGreetingFromStoredPreferences
+{
+    NSString *storedGreeting = [self._storedPreferences stringForKey:@"greeting"];
+    
+    if(storedGreeting == nil) {
+        return @"Hi ";
+    }
+    return storedGreeting;
+}
+
 - (void) setGreetingToStoredPreferences: (NSString *)greeting
 {
     [self._storedPreferences setValue:greeting forKey:@"greeting"];
@@ -372,21 +388,6 @@
         return @"100";
     }
     return daysLeft;
-}
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self.view endEditing:YES];
-    [super touchesBegan:touches withEvent:event];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
-- (IBAction)clearSavedButton:(id)sender {
-    self.keychain[@"username"] = nil;
-    self.keychain[@"password"] = nil;
-    [self makeToast:@"User information cleared" :[UIColor redColor] :[UIColor blackColor]];
 }
 
 @end
