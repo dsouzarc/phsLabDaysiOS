@@ -18,17 +18,17 @@
 
 @interface SendMessageViewController () <UITextFieldDelegate, UIAlertViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 
+- (IBAction)sendDailyMessageButton:(id)sender;
+- (IBAction)clearSavedButton:(id)sender;
+- (IBAction)sendSpecialMessageButton:(id)sender;
+- (IBAction)numberOfDaysLeftStepper:(id)sender;
+
 @property (nonatomic, strong) UICKeyChainStore *keychain;
 
 @property (weak, nonatomic) IBOutlet UITextField *greetingTextField;
 @property (weak, nonatomic) IBOutlet UITextField *nextVacationTextField;
 @property (weak, nonatomic) IBOutlet UILabel *numberOfSchoolDaysLeftLabel;
 @property (weak, nonatomic) IBOutlet UIPickerView *letterDayPickerView;
-
-- (IBAction)sendDailyMessageButton:(id)sender;
-- (IBAction)clearSavedButton:(id)sender;
-- (IBAction)sendSpecialMessageButton:(id)sender;
-- (IBAction)numberOfDaysLeftStepper:(id)sender;
 
 @property (strong, nonatomic) NSArray *_letterDayPickerData;
 @property (strong, nonatomic) NSUserDefaults *_storedPreferences;
@@ -46,15 +46,12 @@
     
     if(self) {
         self.keychain = [[UICKeyChainStore alloc] initWithService:@"APILogin"];
-        self._letterDayPickerData = @[@"A", @"B", @"C", @"D", @"E", @"F", @"G"];
         self._storedPreferences = [NSUserDefaults standardUserDefaults];
         
+        self._letterDayPickerData = @[@"A", @"B", @"C", @"D", @"E", @"F", @"G"];
         self.letterDayPickerView.showsSelectionIndicator = YES;
         self.letterDayPickerView.dataSource = self;
         self.letterDayPickerView.delegate = self;
-        
-        //Set the letter day from the preference
-        [self setLetterDayFromSaved];
     }
     return self;
 }
@@ -66,14 +63,15 @@
     unichar letter = [[letterDay uppercaseString] characterAtIndex:0];
     int arrayLocation = letter - 65;
     [self.letterDayPickerView selectRow:arrayLocation inComponent:0 animated:YES];
-    
-    NSLog(@"LETTER: %i", letter);
-    
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setLetterDayFromSaved];
+
+    self.greetingTextField.text = [self getGreetingFromStoredPreferences];
+    self.nextVacationTextField.text = [self getNextVacationFromStoredPreferences];
+    self.numberOfSchoolDaysLeftLabel.text = [self getNumberOfDaysLeftFromStoredPreferences];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         //Update the global array with the recipients
@@ -131,10 +129,8 @@
         [self.people addObject:person];
     }
     
-    int counter = 0;
     for(Person *person in self.people) {
-        NSLog(@"\nPERSON: %@ IS LAB DAY: %d\n", person.toString, [person shouldGetMessage:@"A"]);
-        counter++;
+        //NSLog(@"\nPERSON: %@ IS LAB DAY: %d\n", person.toString, [person shouldGetMessage:@"A"]);
     }
 }
 
@@ -157,9 +153,19 @@
         
         //Yes, send the message
         if(buttonIndex == 1) {
-            
+            [self saveInformation];
         }
     }
+}
+
+- (void) saveInformation
+{
+    //The letter day info is already saved
+    [self setNumberOfDaysLeftToStoredPreferences:self.numberOfSchoolDaysLeftLabel.text];
+    [self setGreetingToStoredPreferences:self.greetingTextField.text];
+    
+    NSLog(@"Saving: %@", self.numberOfSchoolDaysLeftLabel.text);
+    [self setNextVacationToStoredPreferences:self.nextVacationTextField.text];
 }
 
 - (IBAction)sendSpecialMessageButton:(id)sender {
@@ -206,7 +212,6 @@
 
 - (IBAction)numberOfDaysLeftStepper:(UIStepper*)stepper {
     int increase = (int)[stepper value];
-    NSLog(@"Increase: %d", increase);
     int previous = [[self getNumberOfDaysLeftFromStoredPreferences] intValue];
     self.numberOfSchoolDaysLeftLabel.text = [NSString stringWithFormat:@"%d", (increase + previous)];
 }
@@ -344,9 +349,19 @@
     [self._storedPreferences setValue:greeting forKey:@"greeting"];
 }
 
+- (void) setNextVacationToStoredPreferences: (NSString *)vacation
+{
+    [self._storedPreferences setValue:vacation forKey:@"vacation"];
+}
+
+- (NSString*) getNextVacationFromStoredPreferences
+{
+    return [self._storedPreferences stringForKey:@"vacation"];
+}
+
 - (void) setNumberOfDaysLeftToStoredPreferences: (NSString*)numDays
 {
-    [self._storedPreferences setValue:numDays forKey:@"numdays"];
+    [self._storedPreferences setValue:numDays forKey:@"numDays"];
 }
 
 - (NSString*) getNumberOfDaysLeftFromStoredPreferences
@@ -373,4 +388,5 @@
     self.keychain[@"password"] = nil;
     [self makeToast:@"User information cleared" :[UIColor redColor] :[UIColor blackColor]];
 }
+
 @end

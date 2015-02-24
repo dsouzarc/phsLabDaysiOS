@@ -24,18 +24,10 @@
     return self;
 }
 
-//Closes the keyboard when screen is touched any where else
-- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    [self.view endEditing:YES];
-    [super touchesBegan:touches withEvent:event];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.passwordField.delegate = self;
 }
-
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
@@ -51,6 +43,13 @@
 - (BOOL) textFieldShouldBeginEditing:(UITextField *)textField
 {
     return YES;
+}
+
+//Closes the keyboard when screen is touched any where else
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
+    [super touchesBegan:touches withEvent:event];
 }
 
 - (void)didReceiveMemoryWarning {
