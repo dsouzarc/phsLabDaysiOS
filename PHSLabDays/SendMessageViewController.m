@@ -37,6 +37,7 @@
 
 @property (strong, nonatomic) UIAlertView *enterLoginInfoAV;
 @property (strong, nonatomic) UIAlertView *confirmationDailyAV;
+@property (strong, nonatomic) UIAlertView *sendSpecialMessageAV;
 
 @end
 
@@ -142,6 +143,16 @@
         };
     }
     
+    else if(alertView == self.sendSpecialMessageAV) {
+        
+        if(buttonIndex == 1) {
+            NSString *subject = [alertView textFieldAtIndex:0].text;
+            NSString *message = [alertView textFieldAtIndex:1].text;
+            
+            [self sendSpecialMessage:subject message:message];
+        }
+    }
+    
     else if(alertView == self.confirmationDailyAV) {
         
         //Yes, send the message
@@ -217,7 +228,7 @@
             
             //Send the email
             email.text = message;
-            //[sendGrid sendWithWeb:email];
+            [sendGrid sendWithWeb:email];
         }
     }
     
@@ -229,6 +240,8 @@
 
 - (void)sendSpecialMessage:(NSString*)subject message:(NSString*)message
 {
+    [self makeToast:@"Sending..." :[UIColor blackColor] :[UIColor greenColor]];
+    
     //Sendrid Email client
     SendGrid *sendGrid = [SendGrid apiUser:self.keychain[@"username"] apiKey:self.keychain[@"password"]];
     
@@ -247,6 +260,12 @@
         //Send
         [sendGrid sendWithWeb:email];
     }
+    
+    
+    [CRToastManager dismissNotification:NO];
+    
+    [self makeToast:@"Finished sending" :[UIColor greenColor] :[UIColor blackColor]];
+    [CRToastManager dismissNotification:NO];
 }
 
 - (IBAction)sendSpecialMessageButton:(id)sender {
@@ -256,10 +275,27 @@
         [self setupSendGrid];
     }
     else {
-        //TO DO
-        //[self sendMessage];
+        
+        self.sendSpecialMessageAV = [[UIAlertView alloc]
+                                     initWithTitle:@"Special Message Details"
+                                     message:@"Enter the special message details"
+                                     delegate:self
+                                     cancelButtonTitle:@"Cancel"
+                                     otherButtonTitles: @"Send message", nil];
+        
+        self.sendSpecialMessageAV.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;
+        
+        UITextField *subjectTF = [self.sendSpecialMessageAV textFieldAtIndex:0];
+        subjectTF.keyboardType = UIKeyboardTypeDefault;
+        subjectTF.placeholder = @"Message Subject";
+        
+        [self.sendSpecialMessageAV textFieldAtIndex:1].secureTextEntry = NO;
+        UITextField *messageTF = [self.sendSpecialMessageAV textFieldAtIndex:1];
+        messageTF.keyboardType = UIKeyboardTypeDefault;
+        messageTF.placeholder = @"Message Field";
+        
+        [self.sendSpecialMessageAV show];
     }
-    
 }
 
 - (IBAction)sendDailyMessageButton:(id)sender {
