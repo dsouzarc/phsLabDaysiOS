@@ -33,6 +33,7 @@
 @property (strong, nonatomic) NSArray *_letterDayPickerData;
 @property (strong, nonatomic) NSUserDefaults *_storedPreferences;
 @property (strong, atomic) NSMutableSet *people;
+@property (strong, atomic) NSArray *letterDays;
 
 @property (strong, nonatomic) UIAlertView *enterLoginInfoAV;
 @property (strong, nonatomic) UIAlertView *confirmationDailyAV;
@@ -47,15 +48,15 @@
     if(self) {
         self.keychain = [[UICKeyChainStore alloc] initWithService:@"APILogin"];
         self._storedPreferences = [NSUserDefaults standardUserDefaults];
+        self.letterDays = @[@"A", @"B", @"C", @"D", @"E", @"F", @"G"];
         
-        self._letterDayPickerData = @[@"A", @"B", @"C", @"D", @"E", @"F", @"G"];
+        self._letterDayPickerData = self.letterDays;
         self.letterDayPickerView.showsSelectionIndicator = YES;
         self.letterDayPickerView.dataSource = self;
         self.letterDayPickerView.delegate = self;
     }
     return self;
 }
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -71,6 +72,7 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             //Say mission success
+            [self makeToast:@"Finished getting saved people from file" :[UIColor greenColor] :[UIColor blackColor]];
         });
     });
 }
@@ -114,15 +116,14 @@
             science2Name = personDetails[8];
         }
         
-        Science *firstScience = [[Science alloc] initEverything:science1Name labDays:science1LabDays];
-        Science *secondScience = science2Name == nil ? nil : [[Science alloc] initEverything:science2Name labDays:science2LabDays];
+        Science *firstScience = [[Science alloc]
+                                 initEverything:science1Name labDays:science1LabDays];
+        Science *secondScience = science2Name == nil ?
+                                            nil : [[Science alloc] initEverything:science2Name labDays:science2LabDays];
         
-        Person *person = [[Person alloc] initEverything:name phoneNumber:phoneNumber carrier:carrier notificationSchedule:notificationSchedule scienceOne:firstScience scienceTwo:secondScience];
+        Person *person = [[Person alloc] initEverything:name phoneNumber:phoneNumber carrier:carrier
+                                   notificationSchedule:notificationSchedule scienceOne:firstScience scienceTwo:secondScience];
         [self.people addObject:person];
-    }
-    
-    for(Person *person in self.people) {
-        //NSLog(@"\nPERSON: %@ IS LAB DAY: %d\n", person.toString, [person shouldGetMessage:@"A"]);
     }
 }
 
@@ -146,20 +147,81 @@
         //Yes, send the message
         if(buttonIndex == 1) {
             [self saveInformation];
+            [self sendDailyMessage];
         }
     }
 }
 
-- (void) saveInformation
+- (void) sendDailyMessage
 {
-    //The letter day info is already saved
-    [self setNumberOfDaysLeftToStoredPreferences:self.numberOfSchoolDaysLeftLabel.text];
-    [self setGreetingToStoredPreferences:self.greetingTextField.text];
-    [self setNextVacationToStoredPreferences:self.nextVacationTextField.text];
+    //Sendrid Email client
+    SendGrid *sendGrid = [SendGrid apiUser:self.keychain[@"username"] apiKey:self.keychain[@"password"]];
+    
+    //If today is a monday
+    const bool isMonday = [self isMonday];
+    NSString *greeting = self.greetingTextField.text;
+    NSString *nextVacation = self.nextVacationTextField.text;
+    NSString *daysLeft = self.numberOfSchoolDaysLeftLabel.text;
+    NSString *letterDay = self.letterDays[[self.letterDayPickerView selectedRowInComponent:0]];
+    
+    //Go through all the people
+    for(Person *person in self.people) {
+        
+        //If it is monday or a lab day
+        if(isMonday || [person shouldGetMessage:letterDay]) {
+            
+            NSMutableString *resultDetails = [[NSMutableString alloc] init];
+            
+            //Create a new email
+            SendGridEmail *email = [[SendGridEmail alloc] init];
+            email.to = person.emailPhone;
+            
+            if(person.carrier == VERIZON) {
+                email.from = [[NSString alloc] initWithFormat:@"%@%@", letterDay, @"_Day"];
+            }
+            else {
+                email.from = @"dsouzarc@gmail.com";
+            }
+            
+            //Email subject
+            NSString *subject = [[NSString alloc] initWithFormat:@"%@%@%@%@", greeting, @" ", person.name, @"!"];
+            email.subject = subject;
+            [resultDetails appendString:subject];
+            
+            //Email message
+            NSMutableString *message = [[NSMutableString alloc] init];
+            
+            //Today is a X day
+            if([letterDay containsString:@"A"] || [letterDay containsString:@"E"] || [letterDay containsString:@"F"]) {
+                [message appendString:@"Today is an '"];
+            }
+            else {
+                [message appendString:@"Today is a '"];
+            }
+            [message appendString:letterDay];
+            [message appendString:@"' day. "];
+            
+            //Lab day message
+            if([person shouldGetMessage:letterDay]) {
+                [message appendString:[person labDayMessage:letterDay]];
+                [message appendString:@". "];
+            }
+            
+            //Monday message
+            if(isMonday) {
+            [message appendString:[[NSString alloc] initWithFormat:@"%@%@%@%@", @"Days of School Left: ", daysLeft, @". Next Break: ", nextVacation]];
+            }
+            [resultDetails appendString:message];
+            
+            //Send the email
+            email.text = message;
+            [sendGrid sendWithWeb:email];
+        }
+    }
 }
 
 - (IBAction)sendSpecialMessageButton:(id)sender {
-    [sender setTitle:@"Sending..." forState:UIControlStateNormal];
+    [sender setTitle:@"Send Special Message" forState:UIControlStateNormal];
     
     if(self.keychain[@"username"] == nil || self.keychain[@"password"] == nil) {
         [self setupSendGrid];
@@ -172,7 +234,7 @@
 }
 
 - (IBAction)sendDailyMessageButton:(id)sender {
-    [sender setTitle:@"Sending..." forState:UIControlStateNormal];
+    [sender setTitle:@"Send Message" forState:UIControlStateNormal];
     
     if(self.keychain[@"username"] == nil || self.keychain[@"password"] == nil) {
         [self setupSendGrid];
@@ -188,7 +250,6 @@
                                cancelButtonTitle:@"Cancel"
                                otherButtonTitles:@"Send Message", nil];
         [self.confirmationDailyAV show];
-        
     }
 }
 
@@ -201,6 +262,16 @@
     int increase = (int)[stepper value];
     int previous = [[self getNumberOfDaysLeftFromStoredPreferences] intValue];
     self.numberOfSchoolDaysLeftLabel.text = [NSString stringWithFormat:@"%d", (increase + previous)];
+}
+
+- (bool) isMonday
+{
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *comps = [gregorian components:NSWeekdayCalendarUnit fromDate:[NSDate date]];
+    int weekday = [comps weekday];
+    
+    //Sunday = 1, Monday = 2
+    return (weekday == 2);
 }
 
 - (enum Carrier) assignCarrier:(NSString *)carrier
@@ -242,6 +313,14 @@
     //In case some idiot puts 911
     raw = [raw stringByReplacingOccurrencesOfString:@"911" withString:@""];
     return raw;
+}
+
+- (void) saveInformation
+{
+    //The letter day info is already saved
+    [self setNumberOfDaysLeftToStoredPreferences:self.numberOfSchoolDaysLeftLabel.text];
+    [self setGreetingToStoredPreferences:self.greetingTextField.text];
+    [self setNextVacationToStoredPreferences:self.nextVacationTextField.text];
 }
 
 - (enum Notification) parseNotification:(NSString *)string

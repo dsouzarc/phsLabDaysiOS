@@ -19,7 +19,14 @@
     self = [super init];
     
     if(self) {
-        _name = name;
+        
+        if([name containsString:@" "]) {
+            _name = [name substringToIndex:[name rangeOfString:@" "].location];
+        }
+        else {
+            _name = name;
+        }
+        
         _phoneNumber = phoneNumber_;
         _carrier = carrier_;
         _notificationSchedule = notificationSchedule_;
@@ -52,9 +59,6 @@
     if(self.scienceTwo != nil && [self.scienceTwo isLabDay:letterDay_]) {
         [result appendString: [[NSString alloc] initWithFormat:@"Today is a lab day for %@", self.scienceTwo.scienceName]];
     }
-    
-    NSLog(@"Called");
-    
     return result;
 }
 
