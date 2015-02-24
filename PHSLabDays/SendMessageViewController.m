@@ -61,7 +61,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setLetterDayFromSaved];
-
+    
     self.greetingTextField.text = [self getGreetingFromStoredPreferences];
     self.nextVacationTextField.text = [self getNextVacationFromStoredPreferences];
     self.numberOfSchoolDaysLeftLabel.text = [self getNumberOfDaysLeftFromStoredPreferences];
@@ -119,7 +119,7 @@
         Science *firstScience = [[Science alloc]
                                  initEverything:science1Name labDays:science1LabDays];
         Science *secondScience = science2Name == nil ?
-                                            nil : [[Science alloc] initEverything:science2Name labDays:science2LabDays];
+        nil : [[Science alloc] initEverything:science2Name labDays:science2LabDays];
         
         Person *person = [[Person alloc] initEverything:name phoneNumber:phoneNumber carrier:carrier
                                    notificationSchedule:notificationSchedule scienceOne:firstScience scienceTwo:secondScience];
@@ -163,6 +163,8 @@
     NSString *nextVacation = self.nextVacationTextField.text;
     NSString *daysLeft = self.numberOfSchoolDaysLeftLabel.text;
     NSString *letterDay = self.letterDays[[self.letterDayPickerView selectedRowInComponent:0]];
+    
+    [self makeToast:@"Sending..." :[UIColor blackColor] :[UIColor greenColor]];
     
     //Go through all the people
     for(Person *person in self.people) {
@@ -209,14 +211,41 @@
             
             //Monday message
             if(isMonday) {
-            [message appendString:[[NSString alloc] initWithFormat:@"%@%@%@%@", @"Days of School Left: ", daysLeft, @". Next Break: ", nextVacation]];
+                [message appendString:[[NSString alloc] initWithFormat:@"%@%@%@%@", @"Days of School Left: ", daysLeft, @". Next Break: ", nextVacation]];
             }
             [resultDetails appendString:message];
             
             //Send the email
             email.text = message;
-            [sendGrid sendWithWeb:email];
+            //[sendGrid sendWithWeb:email];
         }
+    }
+    
+    [CRToastManager dismissNotification:NO];
+    
+    [self makeToast:@"Finished sending" :[UIColor greenColor] :[UIColor blackColor]];
+    [CRToastManager dismissNotification:NO];
+}
+
+- (void)sendSpecialMessage:(NSString*)subject message:(NSString*)message
+{
+    //Sendrid Email client
+    SendGrid *sendGrid = [SendGrid apiUser:self.keychain[@"username"] apiKey:self.keychain[@"password"]];
+    
+    //Go through all the people
+    for(Person *person in self.people) {
+        
+        //Create a new email
+        SendGridEmail *email = [[SendGridEmail alloc] init];
+        email.to = person.emailPhone;
+        email.from = @"dsouzarc@gmail.com";
+        
+        //Add the appropriate fields
+        email.subject = subject;
+        email.text = message;
+        
+        //Send
+        [sendGrid sendWithWeb:email];
     }
 }
 
@@ -241,14 +270,14 @@
     }
     else {
         self.confirmationDailyAV = [[UIAlertView alloc]
-                               initWithTitle:@"Confirmation"
-                               message:@"Are you sure you want to send this message?"
-                               delegate:self
-                               //^(UIAlertView *alertView, NSInteger buttonIndex) {
-                               //   NSLog(@"CLICKED:");
-                               //}
-                               cancelButtonTitle:@"Cancel"
-                               otherButtonTitles:@"Send Message", nil];
+                                    initWithTitle:@"Confirmation"
+                                    message:@"Are you sure you want to send this message?"
+                                    delegate:self
+                                    //^(UIAlertView *alertView, NSInteger buttonIndex) {
+                                    //   NSLog(@"CLICKED:");
+                                    //}
+                                    cancelButtonTitle:@"Cancel"
+                                    otherButtonTitles:@"Send Message", nil];
         [self.confirmationDailyAV show];
     }
 }
