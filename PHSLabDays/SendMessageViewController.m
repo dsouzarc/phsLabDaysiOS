@@ -40,6 +40,8 @@
 @property (strong, nonatomic) UIAlertView *confirmationDailyAV;
 @property (strong, nonatomic) UIAlertView *sendSpecialMessageAV;
 
+@property (strong, nonatomic) PQFCirclesInTriangle *loadingCircles;
+
 @end
 
 @implementation SendMessageViewController
@@ -178,6 +180,12 @@
     
     [self makeToast:@"Sending..." :[UIColor blackColor] :[UIColor greenColor]];
     
+    self.loadingCircles = [[PQFCirclesInTriangle alloc] initLoaderOnView:self.view];
+    self.loadingCircles.label.text = @"Creating account...";
+    self.loadingCircles.borderWidth = 5.0;
+    self.loadingCircles.maxDiam = 200.0;
+    [self.loadingCircles show];
+    
     //Go through all the people
     for(Person *person in self.people) {
         
@@ -229,7 +237,11 @@
             
             //Send the email
             email.text = message;
-            [sendGrid sendWithWeb:email];
+            //[sendGrid sendWithWeb:email];
+        }
+        
+        for(int i = 0; i < INT16_MAX; i++) {
+            i += i * i;
         }
     }
     
@@ -237,10 +249,17 @@
     
     [self makeToast:@"Finished sending" :[UIColor greenColor] :[UIColor blackColor]];
     [CRToastManager dismissNotification:NO];
+    [self.loadingCircles hide];
 }
 
 - (void)sendSpecialMessage:(NSString*)subject message:(NSString*)message
 {
+    self.loadingCircles = [[PQFCirclesInTriangle alloc] initLoaderOnView:self.view];
+    self.loadingCircles.label.text = @"Creating account...";
+    self.loadingCircles.borderWidth = 5.0;
+    self.loadingCircles.maxDiam = 200.0;
+    [self.loadingCircles show];
+    
     [self makeToast:@"Sending..." :[UIColor blackColor] :[UIColor greenColor]];
     
     //Sendrid Email client
@@ -267,6 +286,7 @@
     
     [self makeToast:@"Finished sending" :[UIColor greenColor] :[UIColor blackColor]];
     [CRToastManager dismissNotification:NO];
+    [self.loadingCircles hide];
 }
 
 - (IBAction)sendSpecialMessageButton:(id)sender {
