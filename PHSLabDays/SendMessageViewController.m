@@ -15,6 +15,7 @@
 #import <CRToast/CRToast.h>
 #import "Person.h"
 #import "Science.h"
+#import "PQFCirclesInTriangle.h"
 
 @interface SendMessageViewController () <UITextFieldDelegate, UIAlertViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 
