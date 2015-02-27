@@ -9,14 +9,6 @@
 /* Begin PBXBuildFile section */
 		9434F3B31A8D816C004715C6 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 9434F3B21A8D816C004715C6 /* Person.m */; };
 		9434F3B61A8D8E03004715C6 /* Science.m in Sources */ = {isa = PBXBuildFile; fileRef = 9434F3B51A8D8E03004715C6 /* Science.m */; };
-		9443CCDC1A9E3BEB00C5CC70 /* ChameleonStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9443CCC01A9E3BEB00C5CC70 /* ChameleonStatusBar.m */; };
-		9443CCDD1A9E3BEB00C5CC70 /* NSArray+Chameleon.m in Sources */ = {isa = PBXBuildFile; fileRef = 9443CCC21A9E3BEB00C5CC70 /* NSArray+Chameleon.m */; };
-		9443CCDE1A9E3BEB00C5CC70 /* PQFBarsInCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 9443CCC51A9E3BEB00C5CC70 /* PQFBarsInCircle.m */; };
-		9443CCDF1A9E3BEB00C5CC70 /* PQFBouncingBalls.m in Sources */ = {isa = PBXBuildFile; fileRef = 9443CCC71A9E3BEB00C5CC70 /* PQFBouncingBalls.m */; };
-		9443CCE01A9E3BEB00C5CC70 /* PQFCirclesInTriangle.m in Sources */ = {isa = PBXBuildFile; fileRef = 9443CCC91A9E3BEB00C5CC70 /* PQFCirclesInTriangle.m */; };
-		9443CCE11A9E3BEB00C5CC70 /* UIColor+Chameleon.m in Sources */ = {isa = PBXBuildFile; fileRef = 9443CCCC1A9E3BEB00C5CC70 /* UIColor+Chameleon.m */; };
-		9443CCE21A9E3BEB00C5CC70 /* UIColor+CIELAB.m in Sources */ = {isa = PBXBuildFile; fileRef = 9443CCCE1A9E3BEB00C5CC70 /* UIColor+CIELAB.m */; };
-		9443CCE31A9E3BEB00C5CC70 /* UIViewController+Chameleon.m in Sources */ = {isa = PBXBuildFile; fileRef = 9443CCD01A9E3BEB00C5CC70 /* UIViewController+Chameleon.m */; };
 		9443CCE41A9E3BEB00C5CC70 /* PQFBarsInCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 9443CCD31A9E3BEB00C5CC70 /* PQFBarsInCircle.m */; };
 		9443CCE51A9E3BEB00C5CC70 /* PQFBouncingBalls.m in Sources */ = {isa = PBXBuildFile; fileRef = 9443CCD51A9E3BEB00C5CC70 /* PQFBouncingBalls.m */; };
 		9443CCE61A9E3BEB00C5CC70 /* PQFCirclesInTriangle.m in Sources */ = {isa = PBXBuildFile; fileRef = 9443CCD71A9E3BEB00C5CC70 /* PQFCirclesInTriangle.m */; };
@@ -53,25 +45,6 @@
 		9434F3B21A8D816C004715C6 /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
 		9434F3B41A8D8E03004715C6 /* Science.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Science.h; sourceTree = "<group>"; };
 		9434F3B51A8D8E03004715C6 /* Science.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Science.m; sourceTree = "<group>"; };
-		9443CCBD1A9E3BEB00C5CC70 /* Chameleon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Chameleon.h; sourceTree = "<group>"; };
-		9443CCBE1A9E3BEB00C5CC70 /* ChameleonMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChameleonMacros.h; sourceTree = "<group>"; };
-		9443CCBF1A9E3BEB00C5CC70 /* ChameleonStatusBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChameleonStatusBar.h; sourceTree = "<group>"; };
-		9443CCC01A9E3BEB00C5CC70 /* ChameleonStatusBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChameleonStatusBar.m; sourceTree = "<group>"; };
-		9443CCC11A9E3BEB00C5CC70 /* NSArray+Chameleon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Chameleon.h"; sourceTree = "<group>"; };
-		9443CCC21A9E3BEB00C5CC70 /* NSArray+Chameleon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Chameleon.m"; sourceTree = "<group>"; };
-		9443CCC41A9E3BEB00C5CC70 /* PQFBarsInCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQFBarsInCircle.h; sourceTree = "<group>"; };
-		9443CCC51A9E3BEB00C5CC70 /* PQFBarsInCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PQFBarsInCircle.m; sourceTree = "<group>"; };
-		9443CCC61A9E3BEB00C5CC70 /* PQFBouncingBalls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQFBouncingBalls.h; sourceTree = "<group>"; };
-		9443CCC71A9E3BEB00C5CC70 /* PQFBouncingBalls.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PQFBouncingBalls.m; sourceTree = "<group>"; };
-		9443CCC81A9E3BEB00C5CC70 /* PQFCirclesInTriangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQFCirclesInTriangle.h; sourceTree = "<group>"; };
-		9443CCC91A9E3BEB00C5CC70 /* PQFCirclesInTriangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PQFCirclesInTriangle.m; sourceTree = "<group>"; };
-		9443CCCA1A9E3BEB00C5CC70 /* PQFCustomLoaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQFCustomLoaders.h; sourceTree = "<group>"; };
-		9443CCCB1A9E3BEB00C5CC70 /* UIColor+Chameleon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Chameleon.h"; sourceTree = "<group>"; };
-		9443CCCC1A9E3BEB00C5CC70 /* UIColor+Chameleon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Chameleon.m"; sourceTree = "<group>"; };
-		9443CCCD1A9E3BEB00C5CC70 /* UIColor+CIELAB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+CIELAB.h"; sourceTree = "<group>"; };
-		9443CCCE1A9E3BEB00C5CC70 /* UIColor+CIELAB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+CIELAB.m"; sourceTree = "<group>"; };
-		9443CCCF1A9E3BEB00C5CC70 /* UIViewController+Chameleon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Chameleon.h"; sourceTree = "<group>"; };
-		9443CCD01A9E3BEB00C5CC70 /* UIViewController+Chameleon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Chameleon.m"; sourceTree = "<group>"; };
 		9443CCD21A9E3BEB00C5CC70 /* PQFBarsInCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQFBarsInCircle.h; sourceTree = "<group>"; };
 		9443CCD31A9E3BEB00C5CC70 /* PQFBarsInCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PQFBarsInCircle.m; sourceTree = "<group>"; };
 		9443CCD41A9E3BEB00C5CC70 /* PQFBouncingBalls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PQFBouncingBalls.h; sourceTree = "<group>"; };
@@ -142,40 +115,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		9443CCBC1A9E3BEB00C5CC70 /* Chameleon */ = {
-			isa = PBXGroup;
-			children = (
-				9443CCBD1A9E3BEB00C5CC70 /* Chameleon.h */,
-				9443CCBE1A9E3BEB00C5CC70 /* ChameleonMacros.h */,
-				9443CCBF1A9E3BEB00C5CC70 /* ChameleonStatusBar.h */,
-				9443CCC01A9E3BEB00C5CC70 /* ChameleonStatusBar.m */,
-				9443CCC11A9E3BEB00C5CC70 /* NSArray+Chameleon.h */,
-				9443CCC21A9E3BEB00C5CC70 /* NSArray+Chameleon.m */,
-				9443CCC31A9E3BEB00C5CC70 /* PQFCustomLoaders */,
-				9443CCCB1A9E3BEB00C5CC70 /* UIColor+Chameleon.h */,
-				9443CCCC1A9E3BEB00C5CC70 /* UIColor+Chameleon.m */,
-				9443CCCD1A9E3BEB00C5CC70 /* UIColor+CIELAB.h */,
-				9443CCCE1A9E3BEB00C5CC70 /* UIColor+CIELAB.m */,
-				9443CCCF1A9E3BEB00C5CC70 /* UIViewController+Chameleon.h */,
-				9443CCD01A9E3BEB00C5CC70 /* UIViewController+Chameleon.m */,
-			);
-			path = Chameleon;
-			sourceTree = "<group>";
-		};
-		9443CCC31A9E3BEB00C5CC70 /* PQFCustomLoaders */ = {
-			isa = PBXGroup;
-			children = (
-				9443CCC41A9E3BEB00C5CC70 /* PQFBarsInCircle.h */,
-				9443CCC51A9E3BEB00C5CC70 /* PQFBarsInCircle.m */,
-				9443CCC61A9E3BEB00C5CC70 /* PQFBouncingBalls.h */,
-				9443CCC71A9E3BEB00C5CC70 /* PQFBouncingBalls.m */,
-				9443CCC81A9E3BEB00C5CC70 /* PQFCirclesInTriangle.h */,
-				9443CCC91A9E3BEB00C5CC70 /* PQFCirclesInTriangle.m */,
-				9443CCCA1A9E3BEB00C5CC70 /* PQFCustomLoaders.h */,
-			);
-			path = PQFCustomLoaders;
-			sourceTree = "<group>";
-		};
 		9443CCD11A9E3BEB00C5CC70 /* PQFCustomLoaders */ = {
 			isa = PBXGroup;
 			children = (
@@ -202,7 +141,6 @@
 		948878B11A8AC1D30047E0CC = {
 			isa = PBXGroup;
 			children = (
-				9443CCBC1A9E3BEB00C5CC70 /* Chameleon */,
 				9443CCD11A9E3BEB00C5CC70 /* PQFCustomLoaders */,
 				9443CCD91A9E3BEB00C5CC70 /* UIColor+FlatColors */,
 				948878BC1A8AC1D30047E0CC /* PHSLabDays */,
@@ -414,10 +352,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9443CCE31A9E3BEB00C5CC70 /* UIViewController+Chameleon.m in Sources */,
-				9443CCDD1A9E3BEB00C5CC70 /* NSArray+Chameleon.m in Sources */,
-				9443CCE21A9E3BEB00C5CC70 /* UIColor+CIELAB.m in Sources */,
-				9443CCE11A9E3BEB00C5CC70 /* UIColor+Chameleon.m in Sources */,
 				9443CCE41A9E3BEB00C5CC70 /* PQFBarsInCircle.m in Sources */,
 				9443CCE51A9E3BEB00C5CC70 /* PQFBouncingBalls.m in Sources */,
 				9434F3B31A8D816C004715C6 /* Person.m in Sources */,
@@ -426,12 +360,8 @@
 				948878C01A8AC1D30047E0CC /* main.m in Sources */,
 				9443CCE61A9E3BEB00C5CC70 /* PQFCirclesInTriangle.m in Sources */,
 				9443CCE71A9E3BEB00C5CC70 /* UIColor+FlatColors.m in Sources */,
-				9443CCDC1A9E3BEB00C5CC70 /* ChameleonStatusBar.m in Sources */,
-				9443CCDF1A9E3BEB00C5CC70 /* PQFBouncingBalls.m in Sources */,
-				9443CCDE1A9E3BEB00C5CC70 /* PQFBarsInCircle.m in Sources */,
 				948878E81A8AC9070047E0CC /* UserAuthenticationViewController.m in Sources */,
 				948878EE1A8ACA7B0047E0CC /* SendMessageViewController.m in Sources */,
-				9443CCE01A9E3BEB00C5CC70 /* PQFCirclesInTriangle.m in Sources */,
 				9434F3B61A8D8E03004715C6 /* Science.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

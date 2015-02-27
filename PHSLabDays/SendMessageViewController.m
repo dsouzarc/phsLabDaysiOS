@@ -182,74 +182,77 @@
     
     self.loadingCircles = [[PQFCirclesInTriangle alloc] initLoaderOnView:self.view];
     self.loadingCircles.label.text = @"Creating account...";
+    self.loadingCircles.loaderColor = [UIColor blackColor];
     self.loadingCircles.borderWidth = 5.0;
+    self.loadingCircles.label.textColor = [UIColor blackColor];
     self.loadingCircles.maxDiam = 200.0;
     [self.loadingCircles show];
     
-    //Go through all the people
-    for(Person *person in self.people) {
-        
-        //If it is monday or a lab day
-        if(isMonday || [person shouldGetMessage:letterDay]) {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //Go through all the people
+        for(Person *person in self.people) {
             
-            NSMutableString *resultDetails = [[NSMutableString alloc] init];
-            
-            //Create a new email
-            SendGridEmail *email = [[SendGridEmail alloc] init];
-            email.to = person.emailPhone;
-            
-            if(person.carrier == VERIZON) {
-                email.from = [[NSString alloc] initWithFormat:@"%@%@", letterDay, @"_Day"];
+            //If it is monday or a lab day
+            if(isMonday || [person shouldGetMessage:letterDay]) {
+                
+                NSMutableString *resultDetails = [[NSMutableString alloc] init];
+                
+                //Create a new email
+                SendGridEmail *email = [[SendGridEmail alloc] init];
+                email.to = person.emailPhone;
+                
+                if(person.carrier == VERIZON) {
+                    email.from = [[NSString alloc] initWithFormat:@"%@%@", letterDay, @"_Day"];
+                }
+                else {
+                    email.from = @"dsouzarc@gmail.com";
+                }
+                
+                //Email subject
+                NSString *subject = [[NSString alloc] initWithFormat:@"%@%@%@%@", greeting, @" ", person.name, @"!"];
+                email.subject = subject;
+                [resultDetails appendString:subject];
+                
+                //Email message
+                NSMutableString *message = [[NSMutableString alloc] init];
+                
+                //Today is a X day
+                if([letterDay containsString:@"A"] || [letterDay containsString:@"E"] || [letterDay containsString:@"F"]) {
+                    [message appendString:@"Today is an '"];
+                }
+                else {
+                    [message appendString:@"Today is a '"];
+                }
+                [message appendString:letterDay];
+                [message appendString:@"' day. "];
+                
+                //Lab day message
+                if([person shouldGetMessage:letterDay]) {
+                    [message appendString:[person labDayMessage:letterDay]];
+                    [message appendString:@". "];
+                }
+                
+                //Monday message
+                if(isMonday) {
+                    [message appendString:[[NSString alloc] initWithFormat:@"%@%@%@%@", @"Days of School Left: ", daysLeft, @". Next Break: ", nextVacation]];
+                }
+                [resultDetails appendString:message];
+                
+                //Send the email
+                email.text = message;
+                [sendGrid sendWithWeb:email];
             }
-            else {
-                email.from = @"dsouzarc@gmail.com";
-            }
-            
-            //Email subject
-            NSString *subject = [[NSString alloc] initWithFormat:@"%@%@%@%@", greeting, @" ", person.name, @"!"];
-            email.subject = subject;
-            [resultDetails appendString:subject];
-            
-            //Email message
-            NSMutableString *message = [[NSMutableString alloc] init];
-            
-            //Today is a X day
-            if([letterDay containsString:@"A"] || [letterDay containsString:@"E"] || [letterDay containsString:@"F"]) {
-                [message appendString:@"Today is an '"];
-            }
-            else {
-                [message appendString:@"Today is a '"];
-            }
-            [message appendString:letterDay];
-            [message appendString:@"' day. "];
-            
-            //Lab day message
-            if([person shouldGetMessage:letterDay]) {
-                [message appendString:[person labDayMessage:letterDay]];
-                [message appendString:@". "];
-            }
-            
-            //Monday message
-            if(isMonday) {
-                [message appendString:[[NSString alloc] initWithFormat:@"%@%@%@%@", @"Days of School Left: ", daysLeft, @". Next Break: ", nextVacation]];
-            }
-            [resultDetails appendString:message];
-            
-            //Send the email
-            email.text = message;
-            //[sendGrid sendWithWeb:email];
         }
         
-        for(int i = 0; i < INT16_MAX; i++) {
-            i += i * i;
-        }
-    }
-    
-    [CRToastManager dismissNotification:NO];
-    
-    [self makeToast:@"Finished sending" :[UIColor greenColor] :[UIColor blackColor]];
-    [CRToastManager dismissNotification:NO];
-    [self.loadingCircles hide];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [CRToastManager dismissNotification:NO];
+            
+            [self makeToast:@"Finished sending" :[UIColor greenColor] :[UIColor blackColor]];
+            [CRToastManager dismissNotification:NO];
+            [self.loadingCircles hide];
+            NSLog(@"YOPE");
+        });
+    });
 }
 
 - (void)sendSpecialMessage:(NSString*)subject message:(NSString*)message
@@ -491,7 +494,7 @@
                               };
     [CRToastManager showNotificationWithOptions:options
                                 completionBlock:^{
-                                    NSLog(@"Completed");
+                                    NSLog(@"Finished showing notification.");
                                 }];
 }
 

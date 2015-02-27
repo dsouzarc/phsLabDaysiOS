@@ -18,11 +18,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    /*UserAuthenticationViewController *authenticateUser = [[UserAuthenticationViewController alloc] initWithNibName:@"UserAuthenticationViewController" bundle:[NSBundle mainBundle]];
-    
-     */
-    
-    SendMessageViewController *authenticateUser = [[SendMessageViewController alloc] initWithNibName:@"SendMessageViewController" bundle:[NSBundle mainBundle]];
+    UserAuthenticationViewController *authenticateUser = [[UserAuthenticationViewController alloc] initWithNibName:@"UserAuthenticationViewController" bundle:[NSBundle mainBundle]];
+
     self.window.rootViewController = authenticateUser;
     
     return YES;
