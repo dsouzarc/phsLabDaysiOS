@@ -10,4 +10,7 @@
 
 @interface SendingResultsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
+- (instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil data:(NSArray*) results;
+- (void)showInView:(UIView *)aView animated:(BOOL)animated;
+
 @end

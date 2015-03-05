@@ -13,8 +13,10 @@
 #import <SendGrid/SendGridEmail.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <CRToast/CRToast.h>
+
 #import "Person.h"
 #import "Science.h"
+#import "SendingResultsViewController.h"
 #import "PQFCirclesInTriangle.h"
 
 @interface SendMessageViewController () <UITextFieldDelegate, UIAlertViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
