@@ -49,6 +49,10 @@ NSString * const sgEndpoint = @"api/mail.send.json";
         result = @"Failure";
     }];
     
+    if(result == nil) {
+        return @"Error";
+    }
+    
     return result;
 }
 
