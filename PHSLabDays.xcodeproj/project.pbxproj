@@ -26,6 +26,8 @@
 		948878EE1A8ACA7B0047E0CC /* SendMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 948878EC1A8ACA7B0047E0CC /* SendMessageViewController.m */; };
 		948878EF1A8ACA7B0047E0CC /* SendMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 948878ED1A8ACA7B0047E0CC /* SendMessageViewController.xib */; };
 		94DAEBA71A9F3A990026A1B0 /* PHS Lab Days (Responses).csv in Resources */ = {isa = PBXBuildFile; fileRef = 94DAEBA61A9F3A990026A1B0 /* PHS Lab Days (Responses).csv */; };
+		94FC06C91AA7FF4C00ACEE67 /* SendingResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FC06C71AA7FF4C00ACEE67 /* SendingResultsViewController.m */; };
+		94FC06CA1AA7FF4C00ACEE67 /* SendingResultsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94FC06C81AA7FF4C00ACEE67 /* SendingResultsViewController.xib */; };
 		AFEDD07D53AC18C8235C0DF9 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 11531391538DFF40912C521C /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +77,9 @@
 		948878EC1A8ACA7B0047E0CC /* SendMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendMessageViewController.m; sourceTree = "<group>"; };
 		948878ED1A8ACA7B0047E0CC /* SendMessageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SendMessageViewController.xib; sourceTree = "<group>"; };
 		94DAEBA61A9F3A990026A1B0 /* PHS Lab Days (Responses).csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "PHS Lab Days (Responses).csv"; sourceTree = "<group>"; };
+		94FC06C61AA7FF4C00ACEE67 /* SendingResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendingResultsViewController.h; sourceTree = "<group>"; };
+		94FC06C71AA7FF4C00ACEE67 /* SendingResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendingResultsViewController.m; sourceTree = "<group>"; };
+		94FC06C81AA7FF4C00ACEE67 /* SendingResultsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SendingResultsViewController.xib; sourceTree = "<group>"; };
 		D25E1CA1FE6024E39EE31A4B /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		D9A208822474543B0089D813 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -183,6 +188,9 @@
 				948878E31A8AC86F0047E0CC /* login_background.png */,
 				948878CC1A8AC1D30047E0CC /* LaunchScreen.xib */,
 				948878BD1A8AC1D30047E0CC /* Supporting Files */,
+				94FC06C61AA7FF4C00ACEE67 /* SendingResultsViewController.h */,
+				94FC06C71AA7FF4C00ACEE67 /* SendingResultsViewController.m */,
+				94FC06C81AA7FF4C00ACEE67 /* SendingResultsViewController.xib */,
 			);
 			path = PHSLabDays;
 			sourceTree = "<group>";
@@ -299,6 +307,7 @@
 				94DAEBA71A9F3A990026A1B0 /* PHS Lab Days (Responses).csv in Resources */,
 				948878E91A8AC9070047E0CC /* UserAuthenticationViewController.xib in Resources */,
 				948878C91A8AC1D30047E0CC /* Main.storyboard in Resources */,
+				94FC06CA1AA7FF4C00ACEE67 /* SendingResultsViewController.xib in Resources */,
 				948878CE1A8AC1D30047E0CC /* LaunchScreen.xib in Resources */,
 				948878CB1A8AC1D30047E0CC /* Images.xcassets in Resources */,
 				948878E41A8AC86F0047E0CC /* login_background.png in Resources */,
@@ -354,6 +363,7 @@
 			files = (
 				9443CCE41A9E3BEB00C5CC70 /* PQFBarsInCircle.m in Sources */,
 				9443CCE51A9E3BEB00C5CC70 /* PQFBouncingBalls.m in Sources */,
+				94FC06C91AA7FF4C00ACEE67 /* SendingResultsViewController.m in Sources */,
 				9434F3B31A8D816C004715C6 /* Person.m in Sources */,
 				948878C61A8AC1D30047E0CC /* ViewController.m in Sources */,
 				948878C31A8AC1D30047E0CC /* AppDelegate.m in Sources */,
