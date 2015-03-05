@@ -171,6 +171,8 @@
     //Sendrid Email client
     SendGrid *sendGrid = [SendGrid apiUser:self.keychain[@"username"] apiKey:self.keychain[@"password"]];
     
+    NSMutableDictionary *results = [[NSMutableDictionary alloc] init];
+    
     //If today is a monday
     const bool isMonday = [self isMonday];
     NSString *greeting = self.greetingTextField.text;
@@ -181,7 +183,7 @@
     [self makeToast:@"Sending..." :[UIColor blackColor] :[UIColor greenColor]];
     
     self.loadingCircles = [[PQFCirclesInTriangle alloc] initLoaderOnView:self.view];
-    self.loadingCircles.label.text = @"Creating account...";
+    self.loadingCircles.label.text = @"Sending...";
     self.loadingCircles.loaderColor = [UIColor blackColor];
     self.loadingCircles.borderWidth = 5.0;
     self.loadingCircles.label.textColor = [UIColor blackColor];
@@ -240,7 +242,9 @@
                 
                 //Send the email
                 email.text = message;
-                [sendGrid sendWithWeb:email];
+                NSString *result = [sendGrid sendWithWeb:email];
+                
+                [results setObject:person forKey:result];
             }
         }
         
@@ -250,46 +254,51 @@
             [self makeToast:@"Finished sending" :[UIColor greenColor] :[UIColor blackColor]];
             [CRToastManager dismissNotification:NO];
             [self.loadingCircles hide];
-            NSLog(@"YOPE");
         });
     });
 }
 
 - (void)sendSpecialMessage:(NSString*)subject message:(NSString*)message
 {
-    self.loadingCircles = [[PQFCirclesInTriangle alloc] initLoaderOnView:self.view];
-    self.loadingCircles.label.text = @"Creating account...";
-    self.loadingCircles.borderWidth = 5.0;
-    self.loadingCircles.maxDiam = 200.0;
-    [self.loadingCircles show];
-    
-    [self makeToast:@"Sending..." :[UIColor blackColor] :[UIColor greenColor]];
-    
     //Sendrid Email client
     SendGrid *sendGrid = [SendGrid apiUser:self.keychain[@"username"] apiKey:self.keychain[@"password"]];
     
-    //Go through all the people
-    for(Person *person in self.people) {
-        
-        //Create a new email
-        SendGridEmail *email = [[SendGridEmail alloc] init];
-        email.to = person.emailPhone;
-        email.from = @"dsouzarc@gmail.com";
-        
-        //Add the appropriate fields
-        email.subject = subject;
-        email.text = message;
-        
-        //Send
-        [sendGrid sendWithWeb:email];
-    }
+    NSMutableDictionary *results = [[NSMutableDictionary alloc] init];
     
+    [self makeToast:@"Sending..." :[UIColor blackColor] :[UIColor greenColor]];
     
-    [CRToastManager dismissNotification:NO];
+    self.loadingCircles = [[PQFCirclesInTriangle alloc] initLoaderOnView:self.view];
+    self.loadingCircles.label.text = @"Sending...";
+    self.loadingCircles.loaderColor = [UIColor blackColor];
+    self.loadingCircles.borderWidth = 5.0;
+    self.loadingCircles.label.textColor = [UIColor blackColor];
+    self.loadingCircles.maxDiam = 200.0;
+    [self.loadingCircles show];
     
-    [self makeToast:@"Finished sending" :[UIColor greenColor] :[UIColor blackColor]];
-    [CRToastManager dismissNotification:NO];
-    [self.loadingCircles hide];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //Go through all the people
+        for(Person *person in self.people) {
+            
+            //Create a new email
+            SendGridEmail *email = [[SendGridEmail alloc] init];
+            email.to = person.emailPhone;
+            email.from = @"dsouzarc@gmail.com";
+            
+            email.subject = subject;
+            email.text = message;
+            
+            NSString *result = [sendGrid sendWithWeb:email];
+            [results setObject:person forKey:result];
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [CRToastManager dismissNotification:NO];
+    
+            [self makeToast:@"Finished sending" :[UIColor greenColor] :[UIColor blackColor]];
+            [CRToastManager dismissNotification:NO];
+            [self.loadingCircles hide];
+        });
+    });
 }
 
 - (IBAction)sendSpecialMessageButton:(id)sender {
