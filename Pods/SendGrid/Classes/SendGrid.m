@@ -33,17 +33,23 @@ NSString * const sgEndpoint = @"api/mail.send.json";
     return self;
 }
 
-- (void)sendWithWeb:(SendGridEmail *)email
+- (NSString*)sendWithWeb:(SendGridEmail *)email
 {
+    __block NSString *result = nil;
+    
     [self sendWithWeb:email
          successBlock:^(id responseObject)
     {
         NSLog(@"Success: %@", responseObject);
+        result = @"Success";
     }
          failureBlock:^(NSError *error)
     {
         NSLog(@"Error: %@", error);
+        result = @"Failure";
     }];
+    
+    return result;
 }
 
 - (void)sendWithWeb:(SendGridEmail *)email successBlock:(void(^)(id responseObject))successBlock failureBlock:(void(^)(NSError *error))failureBlock

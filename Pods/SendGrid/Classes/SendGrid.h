@@ -14,7 +14,7 @@
 
 + (instancetype)apiUser:(NSString *)apiUser apiKey:(NSString *)apiKey;
 - (id)initWithApiUser:(NSString *)apiUser apiKey:(NSString *)apiKey;
-- (void)sendWithWeb:(SendGridEmail *)email;
+- (NSString*)sendWithWeb:(SendGridEmail *)email;
 - (void)sendWithWeb:(SendGridEmail *)email successBlock:(void(^)(id responseObject))successBlock failureBlock:(void(^)(NSError *error))failureBlock;
 
 @end
