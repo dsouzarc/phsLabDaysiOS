@@ -12,8 +12,7 @@
 @interface SendingResultsViewController ()
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) NSDictionary *resultsToDisplay;
-@property (strong, nonatomic) NSArray *resultsKeyArray;
+@property (strong, nonatomic) NSArray *results;
 
 - (IBAction)closeWindowButton:(id)sender;
 
@@ -21,13 +20,12 @@
 
 @implementation SendingResultsViewController
 
-- (instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil data:(NSDictionary *)resultsToDisplay
+- (instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil data:(NSArray*) results
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
     if(self) {
-        self.resultsToDisplay = resultsToDisplay;
-        self.resultsKeyArray = [resultsToDisplay allKeys];
+        self.results = results;
     }
     
     return self;
@@ -35,7 +33,7 @@
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.resultsKeyArray.count;
+    return self.results.count;
 }
 
 - (UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -46,23 +44,22 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SimpleTableItem"];
     }
     
-    NSString *referralKey = [self.resultsKeyArray objectAtIndex:indexPath.row];
-    Person *person = [self.resultsToDisplay objectForKey:referralKey];
+    NSString *text = [self.results objectAtIndex:indexPath.row];
     
-    NSMutableString *text = [[NSMutableString alloc] init];
+    cell.textLabel.text = text;
     
-    //Format: 'Success: ' or 'Failure: '
-    [text appendString:referralKey];
-    [text appendString:@": "];
-    
-    [text appendString:person.name];
-    [text appendString:@" "];
-    [text appendString:]
-    
+    if([text containsString:@"Success"]) {
+        cell.textLabel.textColor = [UIColor blueColor];
+    }
+    else if([text containsString:@"Failure"]){
+        cell.textLabel.textColor = [UIColor redColor];
+    }
+    else {
+        cell.textLabel.textColor = [UIColor blackColor];
+    }
     
     return cell;
 }
-
 
 - (void)viewDidLoad {
     self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
