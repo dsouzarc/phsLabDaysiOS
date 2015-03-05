@@ -13,8 +13,8 @@
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *results;
+- (IBAction)closeButton:(id)sender;
 
-- (IBAction)closeWindowButton:(id)sender;
 
 @end
 
@@ -69,6 +69,17 @@
     [super viewDidLoad];
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UIAlertView *alertView = [[UIAlertView alloc]
+                              initWithTitle:@"Message Details"
+                              message:[self.results objectAtIndex:indexPath.row]
+                              delegate:nil
+                              cancelButtonTitle:@"Ok"
+                              otherButtonTitles:nil, nil];
+    [alertView show];
+}
+
 - (void) showAnimate
 {
     self.view.transform = CGAffineTransformMakeScale(1.3, 1.3);
@@ -99,8 +110,7 @@
     }
 }
 
-- (IBAction)closeWindowButton:(id)sender {
+- (IBAction)closeButton:(id)sender {
     [self closeAnimate];
 }
-
 @end

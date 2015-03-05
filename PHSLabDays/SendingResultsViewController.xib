@@ -6,7 +6,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SendingResultsViewController">
             <connections>
-                <outlet property="closeButton" destination="w1B-8b-qBD" id="Sa7-cZ-ycV"/>
                 <outlet property="tableView" destination="Ofh-9A-H5L" id="gg4-R9-sse"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="o5f-Cd-gNG"/>
             </connections>
@@ -24,26 +23,26 @@
                         <outlet property="delegate" destination="-1" id="Ssf-1I-yFb"/>
                     </connections>
                 </tableView>
-                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w1B-8b-qBD">
-                    <rect key="frame" x="0.0" y="0.0" width="40" height="32"/>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O9A-eR-BsY">
+                    <rect key="frame" x="0.0" y="0.0" width="46" height="30"/>
                     <state key="normal" title="X">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="closeWindowButton:" destination="-1" eventType="touchUpInside" id="eL4-s8-akr"/>
+                        <action selector="closeButton:" destination="-1" eventType="touchUpInside" id="MpV-rd-axs"/>
                     </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="w1B-8b-qBD" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="1PV-7v-gmk"/>
-                <constraint firstItem="w1B-8b-qBD" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="46A-qa-ybR"/>
                 <constraint firstAttribute="centerY" secondItem="Ofh-9A-H5L" secondAttribute="centerY" id="M45-ET-MF0"/>
                 <constraint firstAttribute="bottom" secondItem="Ofh-9A-H5L" secondAttribute="bottom" constant="31" id="N76-bL-dbe"/>
                 <constraint firstItem="Ofh-9A-H5L" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="39" id="aw5-B7-q4A"/>
+                <constraint firstItem="O9A-eR-BsY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="dU2-sW-VjL"/>
                 <constraint firstAttribute="centerX" secondItem="Ofh-9A-H5L" secondAttribute="centerX" id="kfN-Zb-O3H"/>
                 <constraint firstAttribute="trailing" secondItem="Ofh-9A-H5L" secondAttribute="trailing" constant="40" id="pen-6i-aWk"/>
                 <constraint firstItem="Ofh-9A-H5L" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="40" id="sed-bG-BUu"/>
+                <constraint firstItem="O9A-eR-BsY" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="x6I-Vi-yxd"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
             <point key="canvasLocation" x="210.5" y="260.5"/>

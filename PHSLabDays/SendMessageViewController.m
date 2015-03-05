@@ -43,6 +43,7 @@
 @property (strong, nonatomic) UIAlertView *sendSpecialMessageAV;
 
 @property (strong, nonatomic) PQFCirclesInTriangle *loadingCircles;
+@property (strong, nonatomic) SendingResultsViewController *resultsViewController;
 
 @end
 
@@ -274,6 +275,9 @@
             [self makeToast:@"Finished sending" :[UIColor greenColor] :[UIColor blackColor]];
             [CRToastManager dismissNotification:NO];
             [self.loadingCircles hide];
+            
+            self.resultsViewController = [[SendingResultsViewController alloc] initWithNibName:@"SendingResultsViewController" bundle:nil data:results];
+            [self.resultsViewController showInView:self.view animated:YES];
         });
     });
 }
@@ -337,6 +341,9 @@
             [self makeToast:@"Finished sending" :[UIColor greenColor] :[UIColor blackColor]];
             [CRToastManager dismissNotification:NO];
             [self.loadingCircles hide];
+            
+            self.resultsViewController = [[SendingResultsViewController alloc] initWithNibName:@"SendingResultsViewController" bundle:nil data:results];
+            [self.resultsViewController showInView:self.view animated:YES];
         });
     });
 }
