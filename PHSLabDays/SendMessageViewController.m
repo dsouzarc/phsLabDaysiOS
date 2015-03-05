@@ -171,7 +171,7 @@
     //Sendrid Email client
     SendGrid *sendGrid = [SendGrid apiUser:self.keychain[@"username"] apiKey:self.keychain[@"password"]];
     
-    NSMutableDictionary *results = [[NSMutableDictionary alloc] init];
+    NSMutableArray *results = [[NSMutableArray alloc] init];
     
     //If today is a monday
     const bool isMonday = [self isMonday];
@@ -204,7 +204,8 @@
                 email.to = person.emailPhone;
                 
                 if(person.carrier == VERIZON) {
-                    email.from = [[NSString alloc] initWithFormat:@"%@%@", letterDay, @"_Day"];
+                    email.from = @"PHSLabDays";
+                    //email.from = [[NSString alloc] initWithFormat:@"%@%@", letterDay, @"_Day"];
                 }
                 else {
                     email.from = @"dsouzarc@gmail.com";
@@ -244,7 +245,24 @@
                 email.text = message;
                 NSString *result = [sendGrid sendWithWeb:email];
                 
-                [results setObject:person forKey:result];
+                //Basically hold the entire message
+                NSMutableString *total = [[NSMutableString alloc] init];
+                
+                //Add the message sending details
+                [total appendString:result];
+                [total appendString:@": "];
+                
+                //Add the name
+                [total appendString:person.name];
+                [total appendString:@": "];
+                
+                //Message and person details
+                [total appendString:message];
+                [total appendString:@". Sent to: "];
+                [total appendString:person.emailPhone];
+                
+                //Add it in our array
+                [results addObject:total];
             }
         }
         
@@ -263,7 +281,7 @@
     //Sendrid Email client
     SendGrid *sendGrid = [SendGrid apiUser:self.keychain[@"username"] apiKey:self.keychain[@"password"]];
     
-    NSMutableDictionary *results = [[NSMutableDictionary alloc] init];
+    NSMutableArray *results = [[NSMutableArray alloc] init];
     
     [self makeToast:@"Sending..." :[UIColor blackColor] :[UIColor greenColor]];
     
@@ -288,7 +306,27 @@
             email.text = message;
             
             NSString *result = [sendGrid sendWithWeb:email];
-            [results setObject:person forKey:result];
+            
+            //Basically hold the entire message
+            NSMutableString *total = [[NSMutableString alloc] init];
+            
+            //Add the message sending details
+            [total appendString:result];
+            [total appendString:@": "];
+            
+            //Add the name
+            [total appendString:person.name];
+            [total appendString:@": "];
+            
+            //Message and person details
+            [total appendString:subject];
+            [total appendString:@" - "];
+            [total appendString:message];
+            [total appendString:@". Sent to: "];
+            [total appendString:person.emailPhone];
+            
+            //Add it in our array
+            [results addObject:total];
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
