@@ -19,12 +19,19 @@
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Ofh-9A-H5L">
                     <rect key="frame" x="39" y="40" width="296" height="596"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="Q9J-fb-ko7"/>
+                        <outlet property="delegate" destination="-1" id="Ssf-1I-yFb"/>
+                    </connections>
                 </tableView>
                 <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w1B-8b-qBD">
                     <rect key="frame" x="0.0" y="0.0" width="40" height="32"/>
                     <state key="normal" title="X">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="closeWindowButton:" destination="-1" eventType="touchUpInside" id="eL4-s8-akr"/>
+                    </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

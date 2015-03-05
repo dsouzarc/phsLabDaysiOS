@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SendingResultsViewController : UITabBarController
+@interface SendingResultsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @end
