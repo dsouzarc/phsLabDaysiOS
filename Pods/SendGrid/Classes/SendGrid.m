@@ -41,12 +41,18 @@ NSString * const sgEndpoint = @"api/mail.send.json";
          successBlock:^(id responseObject)
     {
         NSLog(@"Success: %@", responseObject);
-        result = @"Success";
+        
+        if(result == nil) {
+            result = @"Success";
+        }
     }
          failureBlock:^(NSError *error)
     {
         NSLog(@"Error: %@", error);
-        result = @"Failure";
+        
+        if(result == nil) {
+            result = @"Failure";
+        }
     }];
     
     if(result == nil) {
