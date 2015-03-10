@@ -240,7 +240,10 @@
                 
                 //Monday message
                 if(isMonday) {
-                    [message appendString:[[NSString alloc] initWithFormat:@"%@%@%@%@", @"Days of School Left: ", daysLeft, @". Next Break: ", nextVacation]];
+                    
+                    NSString *remaining = [NSString stringWithFormat:@"%ld", (long)(180 - [daysLeft intValue])];
+                    
+                    [message appendString:[[NSString alloc] initWithFormat:@"%@%@%@%@", @"Days of School Left: ", remaining, @". Next Break: ", nextVacation]];
                 }
                 [resultDetails appendString:message];
                 
