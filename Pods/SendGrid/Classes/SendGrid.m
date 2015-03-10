@@ -45,14 +45,14 @@ NSString * const sgEndpoint = @"api/mail.send.json";
         if(result == nil) {
             result = @"Success";
         }
-    }
-         failureBlock:^(NSError *error)
+    } failureBlock:^(NSError *error)
     {
+        if(error) {
+            result = error.description;
+        }
+        
         NSLog(@"Error: %@", error);
         
-        if(result == nil) {
-            result = @"Failure";
-        }
     }];
     
     if(result == nil) {
