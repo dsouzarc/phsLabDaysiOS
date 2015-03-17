@@ -18,3 +18,11 @@ However, the Android phone broke and I made the switch to iOS.
 This repository contains the iOS app I will use to send lab day reminders.
 
 What was supposed to be a commandline program turned into an Android app which turned into an iOS app.
+
+![Screenshot1](https://github.com/dsouzarc/phsLabDaysiOS/blob/master/Screenshots/Screenshot1.jpg)
+
+![ScreenShot2](https://github.com/dsouzarc/phsLabDaysiOS/blob/master/Screenshots/Screenshot2.jpg)
+
+![Raw .mov screen recording](https://github.com/dsouzarc/phsLabDaysiOS/blob/master/Screenshots/ScreenRecording.mov)
+
+![Low quality gif](https://github.com/dsouzarc/phsLabDaysiOS/blob/master/Screenshots/ScreenRecording.gif)
