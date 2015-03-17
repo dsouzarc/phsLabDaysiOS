@@ -35,29 +35,23 @@ NSString * const sgEndpoint = @"api/mail.send.json";
 
 - (NSString*)sendWithWeb:(SendGridEmail *)email
 {
-    __block NSString *result = nil;
+    __block NSString *result = @"Success";
     
     [self sendWithWeb:email
          successBlock:^(id responseObject)
     {
         NSLog(@"Success: %@", responseObject);
         
-        if(result == nil) {
-            result = @"Success";
-        }
+        result = @"Success";
+        
     } failureBlock:^(NSError *error)
     {
-        if(error) {
+        if(error.description.length > 5) {
             result = error.description;
         }
         
         NSLog(@"Error: %@", error);
-        
     }];
-    
-    if(result == nil) {
-        return @"Error";
-    }
     
     return result;
 }
