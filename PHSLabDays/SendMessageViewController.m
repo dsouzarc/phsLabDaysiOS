@@ -309,7 +309,14 @@
             //Create a new email
             SendGridEmail *email = [[SendGridEmail alloc] init];
             email.to = person.emailPhone;
-            email.from = @"dsouzarc@gmail.com";
+            
+            if(person.carrier == VERIZON) {
+                email.from = @"PHSLabDays";
+                //email.from = [[NSString alloc] initWithFormat:@"%@%@", letterDay, @"_Day"];
+            }
+            else {
+                email.from = @"dsouzarc@gmail.com";
+            }
             
             email.subject = subject;
             email.text = message;
