@@ -23,6 +23,6 @@ What was supposed to be a commandline program turned into an Android app which t
 
 ![ScreenShot2](https://github.com/dsouzarc/phsLabDaysiOS/blob/master/Screenshots/Screenshot2.jpg)
 
-![Raw .mov screen recording](https://github.com/dsouzarc/phsLabDaysiOS/blob/master/Screenshots/ScreenRecording.mov)
+[Raw .mov screen recording](https://github.com/dsouzarc/phsLabDaysiOS/blob/master/Screenshots/ScreenRecording.mov)
 
 ![Low quality gif](https://github.com/dsouzarc/phsLabDaysiOS/blob/master/Screenshots/ScreenRecording.gif)
