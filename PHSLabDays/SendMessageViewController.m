@@ -49,6 +49,8 @@
 
 @implementation SendMessageViewController
 
+const static NSString *FILENAME = @"PHS Lab Days (Responses)";
+
 - (instancetype) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
@@ -88,7 +90,7 @@
     
     self.people = [[NSMutableSet alloc] init];
     
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"PHS Lab Days (Responses)" ofType:@"csv"];
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:FILENAME ofType:@"csv"];
     NSString *fileContents = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
     
     if(!fileContents) {

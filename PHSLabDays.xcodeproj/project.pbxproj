@@ -25,7 +25,7 @@
 		948878E91A8AC9070047E0CC /* UserAuthenticationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 948878E71A8AC9070047E0CC /* UserAuthenticationViewController.xib */; };
 		948878EE1A8ACA7B0047E0CC /* SendMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 948878EC1A8ACA7B0047E0CC /* SendMessageViewController.m */; };
 		948878EF1A8ACA7B0047E0CC /* SendMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 948878ED1A8ACA7B0047E0CC /* SendMessageViewController.xib */; };
-		94DAEBA71A9F3A990026A1B0 /* PHS Lab Days (Responses).csv in Resources */ = {isa = PBXBuildFile; fileRef = 94DAEBA61A9F3A990026A1B0 /* PHS Lab Days (Responses).csv */; };
+		94AFC8E91AF8D1110000D4F5 /* PHS Lab Days (Responses).csv in Resources */ = {isa = PBXBuildFile; fileRef = 94AFC8E81AF8D1110000D4F5 /* PHS Lab Days (Responses).csv */; };
 		94FC06C91AA7FF4C00ACEE67 /* SendingResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FC06C71AA7FF4C00ACEE67 /* SendingResultsViewController.m */; };
 		94FC06CA1AA7FF4C00ACEE67 /* SendingResultsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94FC06C81AA7FF4C00ACEE67 /* SendingResultsViewController.xib */; };
 		AFEDD07D53AC18C8235C0DF9 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 11531391538DFF40912C521C /* libPods.a */; };
@@ -76,7 +76,7 @@
 		948878EB1A8ACA7B0047E0CC /* SendMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendMessageViewController.h; sourceTree = "<group>"; };
 		948878EC1A8ACA7B0047E0CC /* SendMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendMessageViewController.m; sourceTree = "<group>"; };
 		948878ED1A8ACA7B0047E0CC /* SendMessageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SendMessageViewController.xib; sourceTree = "<group>"; };
-		94DAEBA61A9F3A990026A1B0 /* PHS Lab Days (Responses).csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "PHS Lab Days (Responses).csv"; sourceTree = "<group>"; };
+		94AFC8E81AF8D1110000D4F5 /* PHS Lab Days (Responses).csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "PHS Lab Days (Responses).csv"; sourceTree = "<group>"; };
 		94FC06C61AA7FF4C00ACEE67 /* SendingResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendingResultsViewController.h; sourceTree = "<group>"; };
 		94FC06C71AA7FF4C00ACEE67 /* SendingResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendingResultsViewController.m; sourceTree = "<group>"; };
 		94FC06C81AA7FF4C00ACEE67 /* SendingResultsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SendingResultsViewController.xib; sourceTree = "<group>"; };
@@ -143,6 +143,17 @@
 			path = "UIColor+FlatColors";
 			sourceTree = "<group>";
 		};
+		947C4D131AE50D0000C55B41 /* Custom Objects */ = {
+			isa = PBXGroup;
+			children = (
+				9434F3B11A8D816C004715C6 /* Person.h */,
+				9434F3B21A8D816C004715C6 /* Person.m */,
+				9434F3B41A8D8E03004715C6 /* Science.h */,
+				9434F3B51A8D8E03004715C6 /* Science.m */,
+			);
+			name = "Custom Objects";
+			sourceTree = "<group>";
+		};
 		948878B11A8AC1D30047E0CC = {
 			isa = PBXGroup;
 			children = (
@@ -168,7 +179,13 @@
 		948878BC1A8AC1D30047E0CC /* PHSLabDays */ = {
 			isa = PBXGroup;
 			children = (
-				94DAEBA61A9F3A990026A1B0 /* PHS Lab Days (Responses).csv */,
+				94AFC8E81AF8D1110000D4F5 /* PHS Lab Days (Responses).csv */,
+				94FC06C61AA7FF4C00ACEE67 /* SendingResultsViewController.h */,
+				94FC06C71AA7FF4C00ACEE67 /* SendingResultsViewController.m */,
+				94FC06C81AA7FF4C00ACEE67 /* SendingResultsViewController.xib */,
+				948878EB1A8ACA7B0047E0CC /* SendMessageViewController.h */,
+				948878EC1A8ACA7B0047E0CC /* SendMessageViewController.m */,
+				948878ED1A8ACA7B0047E0CC /* SendMessageViewController.xib */,
 				948878C11A8AC1D30047E0CC /* AppDelegate.h */,
 				948878C21A8AC1D30047E0CC /* AppDelegate.m */,
 				948878C41A8AC1D30047E0CC /* ViewController.h */,
@@ -176,21 +193,12 @@
 				948878E61A8AC9070047E0CC /* UserAuthenticationViewController.m */,
 				948878E71A8AC9070047E0CC /* UserAuthenticationViewController.xib */,
 				948878C51A8AC1D30047E0CC /* ViewController.m */,
-				948878EB1A8ACA7B0047E0CC /* SendMessageViewController.h */,
-				948878EC1A8ACA7B0047E0CC /* SendMessageViewController.m */,
-				948878ED1A8ACA7B0047E0CC /* SendMessageViewController.xib */,
-				9434F3B11A8D816C004715C6 /* Person.h */,
-				9434F3B21A8D816C004715C6 /* Person.m */,
-				9434F3B41A8D8E03004715C6 /* Science.h */,
-				9434F3B51A8D8E03004715C6 /* Science.m */,
+				947C4D131AE50D0000C55B41 /* Custom Objects */,
 				948878C71A8AC1D30047E0CC /* Main.storyboard */,
 				948878CA1A8AC1D30047E0CC /* Images.xcassets */,
 				948878E31A8AC86F0047E0CC /* login_background.png */,
 				948878CC1A8AC1D30047E0CC /* LaunchScreen.xib */,
 				948878BD1A8AC1D30047E0CC /* Supporting Files */,
-				94FC06C61AA7FF4C00ACEE67 /* SendingResultsViewController.h */,
-				94FC06C71AA7FF4C00ACEE67 /* SendingResultsViewController.m */,
-				94FC06C81AA7FF4C00ACEE67 /* SendingResultsViewController.xib */,
 			);
 			path = PHSLabDays;
 			sourceTree = "<group>";
@@ -304,10 +312,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				948878EF1A8ACA7B0047E0CC /* SendMessageViewController.xib in Resources */,
-				94DAEBA71A9F3A990026A1B0 /* PHS Lab Days (Responses).csv in Resources */,
 				948878E91A8AC9070047E0CC /* UserAuthenticationViewController.xib in Resources */,
 				948878C91A8AC1D30047E0CC /* Main.storyboard in Resources */,
 				94FC06CA1AA7FF4C00ACEE67 /* SendingResultsViewController.xib in Resources */,
+				94AFC8E91AF8D1110000D4F5 /* PHS Lab Days (Responses).csv in Resources */,
 				948878CE1A8AC1D30047E0CC /* LaunchScreen.xib in Resources */,
 				948878CB1A8AC1D30047E0CC /* Images.xcassets in Resources */,
 				948878E41A8AC86F0047E0CC /* login_background.png in Resources */,
