@@ -137,46 +137,13 @@ const static NSString *FILENAME = @"PHS Lab Days (Responses)";
     }
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
-    if(alertView == self.enterLoginInfoAV) {
-        
-        if([alertView textFieldAtIndex:0].text.length <= 5 || [alertView textFieldAtIndex:1].text.length <= 5) {
-            [self makeToast:@"Username/Password too short" :[UIColor redColor] :[UIColor blackColor]];
-            [self setupSendGrid];
-        }
-        else {
-            self.keychain[@"username"] = [alertView textFieldAtIndex:0].text;
-            self.keychain[@"password"] = [alertView textFieldAtIndex:1].text;
-            [self makeToast:@"Successfully saved username and password" :[UIColor greenColor] :[UIColor blackColor]];
-        };
-    }
-    
-    else if(alertView == self.sendSpecialMessageAV) {
-        
-        if(buttonIndex == 1) {
-            NSString *subject = [alertView textFieldAtIndex:0].text;
-            NSString *message = [alertView textFieldAtIndex:1].text;
-            
-            [self sendSpecialMessage:subject message:message];
-        }
-    }
-    
-    else if(alertView == self.confirmationDailyAV) {
-        
-        //Yes, send the message
-        if(buttonIndex == 1) {
-            [self saveInformation];
-            [self sendDailyMessage];
-        }
-    }
-}
+
+/****************************/
+//    SENDING MESSAGES
+/****************************/
 
 - (void) sendDailyMessage
 {
-    //Sendrid Email client
-    SendGrid *sendGrid = [SendGrid apiUser:self.keychain[@"username"] apiKey:self.keychain[@"password"]];
-    
     self.results = [[NSMutableArray alloc] init];
     
     //If today is a monday
@@ -196,22 +163,19 @@ const static NSString *FILENAME = @"PHS Lab Days (Responses)";
     self.loadingCircles.maxDiam = 200.0;
     [self.loadingCircles show];
     
+    //NSURLRequests are intentionally not asynchronous
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
         //Go through all the people
         for(Person *person in self.people) {
             
             //If it is monday or a lab day
             if(isMonday || [person shouldGetMessage:letterDay]) {
                 
-                NSMutableString *resultDetails = [[NSMutableString alloc] init];
-
-                
-                //Email subject
+                //Subject
                 NSString *subject = [[NSString alloc] initWithFormat:@"%@%@%@%@", greeting, @" ", person.name, @"!"];
-                email.subject = subject;
-                [resultDetails appendString:subject];
                 
-                //Email message
+                //Message
                 NSMutableString *message = [[NSMutableString alloc] init];
                 
                 //Today is a X day
@@ -232,38 +196,16 @@ const static NSString *FILENAME = @"PHS Lab Days (Responses)";
                 
                 //Monday message
                 if(isMonday) {
-                    
                     NSString *remaining = [NSString stringWithFormat:@"%ld", (long)(180 - [daysLeft intValue])];
                     
                     [message appendString:[[NSString alloc] initWithFormat:@"%@%@%@%@", @"Days of School Left: ", remaining, @". Next Break: ", nextVacation]];
                 }
-                [resultDetails appendString:message];
                 
-                //Send the email
-                email.text = message;
-                NSString *result = [sendGrid sendWithWeb:email];
-                
-                //Basically hold the entire message
-                NSMutableString *total = [[NSMutableString alloc] init];
-                
-                //Add the message sending details
-                [total appendString:result];
-                [total appendString:@": "];
-                
-                //Add the name
-                [total appendString:person.name];
-                [total appendString:@": "];
-                
-                //Message and person details
-                [total appendString:message];
-                [total appendString:@". Sent to: "];
-                [total appendString:person.emailPhone];
-                
-                //Add it in our array
-                [results addObject:total];
+                [self sendMessage:person subject:subject text:message];
             }
         }
         
+        //Show results now
         dispatch_async(dispatch_get_main_queue(), ^{
             [CRToastManager dismissNotification:NO];
             
@@ -271,78 +213,15 @@ const static NSString *FILENAME = @"PHS Lab Days (Responses)";
             [CRToastManager dismissNotification:NO];
             [self.loadingCircles hide];
             
-            self.resultsViewController = [[SendingResultsViewController alloc] initWithNibName:@"SendingResultsViewController" bundle:nil data:results];
+            self.resultsViewController = [[SendingResultsViewController alloc] initWithNibName:@"SendingResultsViewController" bundle:nil data:self.results];
             [self.resultsViewController showInView:self.view animated:YES];
         });
     });
 }
 
-- (void) sendMessage:(Person*)person subject:(NSString*)subject text:(NSString*)text
-{
-    static NSString *sendGridAPIURL = @"https://api.sendgrid.com/api/mail.send.json";
-    
-    NSMutableString *postData = [[NSMutableString alloc] init];
-    [postData appendString:[NSString stringWithFormat:@"api_user=%@", self.keychain[@"username"]]];
-    [postData appendString:[NSString stringWithFormat:@"&api_key=%@", self.keychain[@"password"]]];
-
-    [postData appendString:[NSString stringWithFormat:@"&to=%@", person.emailPhone]];
-    
-    if(person.carrier == VERIZON) {
-        [postData appendString:[NSString stringWithFormat:@"&from=%@", @"PHSLabDays"]];
-    }
-    else {
-        [postData appendString:[NSString stringWithFormat:@"&from=%@", @"dsouzarc@gmail.com"]];
-    }
-    
-    [postData appendString:[NSString stringWithFormat:@"&subject=%@", subject]];
-    [postData appendString:[NSString stringWithFormat:@"&text=%@", text]];
-    
-    NSMutableURLRequest *sendGridRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:sendGridAPIURL]];
-    
-    [sendGridRequest setHTTPMethod:@"POST"];
-    [sendGridRequest setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    [sendGridRequest setHTTPBody:[postData dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:sendGridRequest delegate:self];
-    
-    [NSURLConnection sendAsynchronousRequest:connection queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *responseData, NSError *error) {
-        
-        //Basically hold the entire message
-        NSMutableString *total = [[NSMutableString alloc] init];
-        
-        //Add the message sending details
-        if(error) {
-            NSLog(@"ERROR SENDING!");
-            [total appendString:error.description];
-        }
-        else {
-            NSDictionary* results = [NSJSONSerialization JSONObjectWithData:responseData
-                                                                 options:kNilOptions
-                                                                   error:nil];
-            [total appendString:results[@"message"]];
-        }
-        [total appendString:@": "];
-        
-        //Add the name
-        [total appendString:person.name];
-        [total appendString:@": "];
-        
-        //Message and person details
-        [total appendString:text];
-        [total appendString:@". Sent to: "];
-        [total appendString:person.emailPhone];
-        
-        //Add it in our array
-        [self.results addObject:total];
-    }];
-}
-
 - (void)sendSpecialMessage:(NSString*)subject message:(NSString*)message
 {
-    //Sendrid Email client
-    SendGrid *sendGrid = [SendGrid apiUser:self.keychain[@"username"] apiKey:self.keychain[@"password"]];
-    
-    NSMutableArray *results = [[NSMutableArray alloc] init];
+    self.results = [[NSMutableArray alloc] init];
     
     [self makeToast:@"Sending..." :[UIColor blackColor] :[UIColor greenColor]];
     
@@ -355,48 +234,13 @@ const static NSString *FILENAME = @"PHS Lab Days (Responses)";
     [self.loadingCircles show];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
         //Go through all the people
         for(Person *person in self.people) {
-            
-            //Create a new email
-            SendGridEmail *email = [[SendGridEmail alloc] init];
-            email.to = person.emailPhone;
-            
-            if(person.carrier == VERIZON) {
-                email.from = @"PHSLabDays";
-                //email.from = [[NSString alloc] initWithFormat:@"%@%@", letterDay, @"_Day"];
-            }
-            else {
-                email.from = @"dsouzarc@gmail.com";
-            }
-            
-            email.subject = subject;
-            email.text = message;
-            
-            NSString *result = [sendGrid sendWithWeb:email];
-            
-            //Basically hold the entire message
-            NSMutableString *total = [[NSMutableString alloc] init];
-            
-            //Add the message sending details
-            [total appendString:result];
-            [total appendString:@": "];
-            
-            //Add the name
-            [total appendString:person.name];
-            [total appendString:@": "];
-            
-            //Message and person details
-            [total appendString:subject];
-            [total appendString:@" - "];
-            [total appendString:message];
-            [total appendString:@". Sent to: "];
-            [total appendString:person.emailPhone];
-            
-            //Add it in our array
-            [results addObject:total];
+            [self sendMessage:person subject:subject text:message];
         }
         
+        //Show results
         dispatch_async(dispatch_get_main_queue(), ^{
             [CRToastManager dismissNotification:NO];
     
@@ -404,11 +248,83 @@ const static NSString *FILENAME = @"PHS Lab Days (Responses)";
             [CRToastManager dismissNotification:NO];
             [self.loadingCircles hide];
             
-            self.resultsViewController = [[SendingResultsViewController alloc] initWithNibName:@"SendingResultsViewController" bundle:nil data:results];
+            self.resultsViewController = [[SendingResultsViewController alloc] initWithNibName:@"SendingResultsViewController" bundle:nil data:self.results];
             [self.resultsViewController showInView:self.view animated:YES];
         });
     });
 }
+
+
+/*********************************************/
+//    SEND MESSAGE WITHOUT USING SENDGRID API
+/*********************************************/
+
+- (void) sendMessage:(Person*)person subject:(NSString*)subject text:(NSString*)text
+{
+    //API for sending messages
+    static NSString *sendGridAPIURL = @"https://api.sendgrid.com/api/mail.send.json";
+    
+    //All POST data
+    NSMutableString *postData = [[NSMutableString alloc] init];
+    [postData appendString:[NSString stringWithFormat:@"api_user=%@", self.keychain[@"username"]]];
+    [postData appendString:[NSString stringWithFormat:@"&api_key=%@", self.keychain[@"password"]]];
+    [postData appendString:[NSString stringWithFormat:@"&to=%@", person.emailPhone]];
+    [postData appendString:[NSString stringWithFormat:@"&subject=%@", subject]];
+    [postData appendString:[NSString stringWithFormat:@"&text=%@", text]];
+    
+    //If the person has Verizon, make it come from a different address
+    if(person.carrier == VERIZON) {
+        [postData appendString:[NSString stringWithFormat:@"&from=%@", @"PHSLabDays"]];
+    }
+    else {
+        [postData appendString:[NSString stringWithFormat:@"&from=%@", @"dsouzarc@gmail.com"]];
+    }
+    
+    //The actual request --> Intentionally not asynchronous
+    NSMutableURLRequest *sendGridRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:sendGridAPIURL]];
+    [sendGridRequest setHTTPMethod:@"POST"];
+    [sendGridRequest setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [sendGridRequest setHTTPBody:[postData dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSURLResponse *response = nil;
+    NSError *error = nil;
+    
+    //Send the Request
+    NSData *responseData = [NSURLConnection sendSynchronousRequest:sendGridRequest returningResponse:&response error:&error];
+    
+    //Basically hold the entire message --> For logging purposes
+    NSMutableString *total = [[NSMutableString alloc] init];
+    
+    //Success or error when sending?
+    if(error) {
+        NSLog(@"ERROR SENDING!");
+        [total appendString:error.description];
+    }
+    else {
+        NSDictionary* results = [NSJSONSerialization JSONObjectWithData:responseData
+                                                                options:kNilOptions
+                                                                  error:nil];
+        [total appendString:results[@"message"]];
+    }
+    [total appendString:@": "];
+    
+    //Add the name
+    [total appendString:person.name];
+    [total appendString:@": "];
+    
+    //Message and person details
+    [total appendString:text];
+    [total appendString:@". Sent to: "];
+    [total appendString:person.emailPhone];
+    
+    //Add it in our array
+    [self.results addObject:total];
+}
+
+
+/****************************/
+//    BUTTON LISTENERS
+/****************************/
 
 - (IBAction)sendSpecialMessageButton:(id)sender {
     [sender setTitle:@"Send Special Message" forState:UIControlStateNormal];
@@ -460,16 +376,16 @@ const static NSString *FILENAME = @"PHS Lab Days (Responses)";
     }
 }
 
--(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
-{
-    [self setLetterDayToStoredPreferences:self._letterDayPickerData[row]];
-}
-
 - (IBAction)numberOfDaysLeftStepper:(UIStepper*)stepper {
     int increase = (int)[stepper value];
     int previous = [[self getNumberOfDaysLeftFromStoredPreferences] intValue];
     self.numberOfSchoolDaysLeftLabel.text = [NSString stringWithFormat:@"%d", (increase + previous)];
 }
+
+
+/***********************************/
+//  VARIOUS FORMATTING AND CHECKING
+/***********************************/
 
 - (bool) isMonday
 {
@@ -568,6 +484,11 @@ const static NSString *FILENAME = @"PHS Lab Days (Responses)";
     [self.enterLoginInfoAV show];
 }
 
+
+/****************************/
+//   PICKERVIEW DELEGATE
+/****************************/
+
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
     return 1;
@@ -583,13 +504,19 @@ const static NSString *FILENAME = @"PHS Lab Days (Responses)";
     return self._letterDayPickerData[row];
 }
 
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    [self setLetterDayToStoredPreferences:self._letterDayPickerData[row]];
+}
+
+
+/****************************/
+//  VARIOUS METHODS
+/****************************/
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [self.view endEditing:YES];
     [super touchesBegan:touches withEvent:event];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
 }
 
 - (IBAction)clearSavedButton:(id)sender {
@@ -616,11 +543,11 @@ const static NSString *FILENAME = @"PHS Lab Days (Responses)";
                                 }];
 }
 
-//
-//
-// GET/SET METHODS FROM STORED PREFERENCES
-//
-//
+
+/****************************/
+//   STORED PREFERENCES
+/****************************/
+
 - (NSString *) getLetterDayFromStoredPreferences
 {
     NSString *storedLetterDay = [self._storedPreferences stringForKey:@"letter_day"];
@@ -674,6 +601,46 @@ const static NSString *FILENAME = @"PHS Lab Days (Responses)";
         return @"100";
     }
     return daysLeft;
+}
+
+
+/****************************/
+//    ALERTVIEW DELEGATES
+/****************************/
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if(alertView == self.enterLoginInfoAV) {
+        
+        if([alertView textFieldAtIndex:0].text.length <= 5 || [alertView textFieldAtIndex:1].text.length <= 5) {
+            [self makeToast:@"Username/Password too short" :[UIColor redColor] :[UIColor blackColor]];
+            [self setupSendGrid];
+        }
+        else {
+            self.keychain[@"username"] = [alertView textFieldAtIndex:0].text;
+            self.keychain[@"password"] = [alertView textFieldAtIndex:1].text;
+            [self makeToast:@"Successfully saved username and password" :[UIColor greenColor] :[UIColor blackColor]];
+        };
+    }
+    
+    else if(alertView == self.sendSpecialMessageAV) {
+        
+        if(buttonIndex == 1) {
+            NSString *subject = [alertView textFieldAtIndex:0].text;
+            NSString *message = [alertView textFieldAtIndex:1].text;
+            
+            [self sendSpecialMessage:subject message:message];
+        }
+    }
+    
+    else if(alertView == self.confirmationDailyAV) {
+        
+        //Yes, send the message
+        if(buttonIndex == 1) {
+            [self saveInformation];
+            [self sendDailyMessage];
+        }
+    }
 }
 
 @end
