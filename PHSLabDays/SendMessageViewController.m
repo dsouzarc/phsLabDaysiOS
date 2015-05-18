@@ -36,6 +36,7 @@
 @property (strong, nonatomic) NSArray *_letterDayPickerData;
 @property (strong, nonatomic) NSUserDefaults *_storedPreferences;
 @property (strong, atomic) NSMutableSet *people;
+@property (strong, nonatomic) NSMutableArray *results;
 @property (strong, atomic) NSArray *letterDays;
 
 @property (strong, nonatomic) UIAlertView *enterLoginInfoAV;
@@ -176,7 +177,7 @@ const static NSString *FILENAME = @"PHS Lab Days (Responses)";
     //Sendrid Email client
     SendGrid *sendGrid = [SendGrid apiUser:self.keychain[@"username"] apiKey:self.keychain[@"password"]];
     
-    NSMutableArray *results = [[NSMutableArray alloc] init];
+    self.results = [[NSMutableArray alloc] init];
     
     //If today is a monday
     const bool isMonday = [self isMonday];
@@ -203,18 +204,7 @@ const static NSString *FILENAME = @"PHS Lab Days (Responses)";
             if(isMonday || [person shouldGetMessage:letterDay]) {
                 
                 NSMutableString *resultDetails = [[NSMutableString alloc] init];
-                
-                //Create a new email
-                SendGridEmail *email = [[SendGridEmail alloc] init];
-                email.to = person.emailPhone;
-                
-                if(person.carrier == VERIZON) {
-                    email.from = @"PHSLabDays";
-                    //email.from = [[NSString alloc] initWithFormat:@"%@%@", letterDay, @"_Day"];
-                }
-                else {
-                    email.from = @"dsouzarc@gmail.com";
-                }
+
                 
                 //Email subject
                 NSString *subject = [[NSString alloc] initWithFormat:@"%@%@%@%@", greeting, @" ", person.name, @"!"];
@@ -285,6 +275,66 @@ const static NSString *FILENAME = @"PHS Lab Days (Responses)";
             [self.resultsViewController showInView:self.view animated:YES];
         });
     });
+}
+
+- (void) sendMessage:(Person*)person subject:(NSString*)subject text:(NSString*)text
+{
+    static NSString *sendGridAPIURL = @"https://api.sendgrid.com/api/mail.send.json";
+    
+    NSMutableString *postData = [[NSMutableString alloc] init];
+    [postData appendString:[NSString stringWithFormat:@"api_user=%@", self.keychain[@"username"]]];
+    [postData appendString:[NSString stringWithFormat:@"&api_key=%@", self.keychain[@"password"]]];
+
+    [postData appendString:[NSString stringWithFormat:@"&to=%@", person.emailPhone]];
+    
+    if(person.carrier == VERIZON) {
+        [postData appendString:[NSString stringWithFormat:@"&from=%@", @"PHSLabDays"]];
+    }
+    else {
+        [postData appendString:[NSString stringWithFormat:@"&from=%@", @"dsouzarc@gmail.com"]];
+    }
+    
+    [postData appendString:[NSString stringWithFormat:@"&subject=%@", subject]];
+    [postData appendString:[NSString stringWithFormat:@"&text=%@", text]];
+    
+    NSMutableURLRequest *sendGridRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:sendGridAPIURL]];
+    
+    [sendGridRequest setHTTPMethod:@"POST"];
+    [sendGridRequest setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [sendGridRequest setHTTPBody:[postData dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:sendGridRequest delegate:self];
+    
+    [NSURLConnection sendAsynchronousRequest:connection queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *responseData, NSError *error) {
+        
+        //Basically hold the entire message
+        NSMutableString *total = [[NSMutableString alloc] init];
+        
+        //Add the message sending details
+        if(error) {
+            NSLog(@"ERROR SENDING!");
+            [total appendString:error.description];
+        }
+        else {
+            NSDictionary* results = [NSJSONSerialization JSONObjectWithData:responseData
+                                                                 options:kNilOptions
+                                                                   error:nil];
+            [total appendString:results[@"message"]];
+        }
+        [total appendString:@": "];
+        
+        //Add the name
+        [total appendString:person.name];
+        [total appendString:@": "];
+        
+        //Message and person details
+        [total appendString:text];
+        [total appendString:@". Sent to: "];
+        [total appendString:person.emailPhone];
+        
+        //Add it in our array
+        [self.results addObject:total];
+    }];
 }
 
 - (void)sendSpecialMessage:(NSString*)subject message:(NSString*)message
