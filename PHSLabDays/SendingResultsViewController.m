@@ -48,10 +48,12 @@
     
     cell.textLabel.text = text;
     
-    if([text containsString:@"Success"]) {
+    text = [text lowercaseString];
+    
+    if([text containsString:@"success"]) {
         cell.textLabel.textColor = [UIColor blueColor];
     }
-    else if([text containsString:@"Failure"]){
+    else if([text containsString:@"failure"] || [text containsString:@"error"] || [text containsString:@"bad"]){
         cell.textLabel.textColor = [UIColor redColor];
     }
     else {
